@@ -1,12 +1,20 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
     <router-view />
+    <nav-bar></nav-bar>
   </div>
 </template>
+
+<script>
+// 1.引入子组件
+import navBar from "./components/Nav.vue";
+export default {
+  components: {
+    // 2.注册子组件
+    navBar
+  }
+};
+</script>
 
 <style lang="scss">
 #app {
@@ -15,6 +23,7 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  overflow-x:hidden;
 }
 
 #nav {
