@@ -66,7 +66,7 @@ export default {
     $route: {
       deep: true,
       handler(newRoute) {
-        console.log(newRoute);
+        // console.log(newRoute);
         this.currentPath = newRoute.path;
       }
     }
