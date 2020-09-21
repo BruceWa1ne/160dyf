@@ -1,13 +1,13 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 // 路由懒加载
-let Home = () => import('../views/Home.vue');
-let List = () => import('../views/List.vue');
-let Cart = () => import('../views/Cart.vue');
-let Mine = () => import('../views/Mine.vue');
-let Contact = () => import('../views/Contact.vue');
-let Reg = () => import('../views/Reg.vue');
-let Login = () => import('../views/Login.vue');
+let Home = () => import('../views/Home/Home.vue');
+let List = () => import('../views/List/List.vue');
+let Cart = () => import('../views/Cart/Cart.vue');
+let Mine = () => import('../views/Mine/Mine.vue');
+let Contact = () => import('../views/Contact/Contact.vue');
+let Reg = () => import('../views/Reg/Reg.vue');
+let Login = () => import('../views/Login/Login.vue');
 Vue.use(VueRouter);
 
 // 路由表
