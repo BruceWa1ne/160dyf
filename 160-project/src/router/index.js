@@ -9,6 +9,12 @@ let Contact = () => import('../views/Contact/Contact.vue');
 let Reg = () => import('../views/Reg/Reg.vue');
 let Login = () => import('../views/Login/Login.vue');
 let Category = () => import('../views/List/children/Category.vue');
+
+//import HelloWorld from '@/components/HelloWorld'
+const originalPush = VueRouter.prototype.push;
+VueRouter.prototype.push = function push(location) {
+    return originalPush.call(this, location).catch(err => err);
+};
 Vue.use(VueRouter);
 
 // 路由表
@@ -16,12 +22,12 @@ const routes = [
     {
         path: '/home',
         component: Home,
-        name: 'Home',
+        name: 'home',
     },
     // 重定向
     {
         path: '/',
-        redirect: '/home/:id',
+        redirect: '/home',
     },
     {
         path: '/list',

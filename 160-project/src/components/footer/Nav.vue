@@ -63,19 +63,12 @@ export default {
         },
     },
 
-    created() {
-        if (this.$route.path == 'path') {
-            this.$route.path = '/home';
-        }
-        this.currentPath = this.$route.path;
-    },
-
     watch: {
         //面试题：watch和updated有什么区别：watch一般用于监听某个属性的变化而执行功能，可以监听路由对象；updated只要data数据有变化都会触发，不能监听路由对象
         $route: {
             deep: true,
             handler(newRoute) {
-                console.log(newRoute);
+                // console.log(newRoute);
                 this.currentPath = newRoute.path;
             },
         },
@@ -83,7 +76,6 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
-@import '../../assets/sass/public/vw.scss';
+<style scoped>
 @import '../../assets/sass/public/common.scss';
 </style>
