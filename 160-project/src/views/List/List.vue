@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import listRightBar from './children/Category.vue';
 export default {
     data() {
         return {
@@ -104,7 +105,9 @@ export default {
         };
     },
 
-    components: {},
+    components: {
+        listRightBar,
+    },
 
     methods: {
         getdata(obj) {
