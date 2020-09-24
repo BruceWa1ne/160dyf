@@ -8,6 +8,9 @@ let Mine = () => import('../views/Mine/Mine.vue');
 let Contact = () => import('../views/Contact/Contact.vue');
 let Reg = () => import('../views/Reg/Reg.vue');
 let Login = () => import('../views/Login/Login.vue');
+let Goodslist = () => import('../views/Home/Goodslist.vue');
+let Details = () => import('../views/Details/Details.vue');
+let Sortlist = () => import('../views/Sortlist/Sortlist.vue');
 Vue.use(VueRouter);
 
 // 路由表
@@ -16,11 +19,25 @@ const routes = [
         path: '/home',
         component: Home,
         name: 'Home',
+        children: [
+            {
+                path: "all",
+                component: Goodslist,
+            },
+            {
+                path: "sales",
+                component: Goodslist,
+            },
+            {
+                path: "affordable",
+                component: Goodslist,
+            },
+        ]
     },
     // 重定向
     {
         path: '/',
-        redirect: '/home/:id',
+        redirect: '/home',
     },
     {
         path: '/list',
@@ -51,6 +68,16 @@ const routes = [
         path: '/login',
         component: Login,
         name: 'login',
+    },
+    {
+        path: '/details',
+        component: Details,
+        name: 'details'
+    },
+    {
+        path: '/sortlist',
+        component: Sortlist,
+        name: 'sortlist'
     },
 ];
 // 注入实例

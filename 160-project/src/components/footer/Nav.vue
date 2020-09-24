@@ -59,6 +59,7 @@ export default {
 
     methods: {
         move(path) {
+            console.log('切换到'+path)
             this.$router.push(path);
         },
     },
