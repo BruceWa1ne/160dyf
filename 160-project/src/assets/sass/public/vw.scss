@@ -1,11 +1,7 @@
 @function vw($px) {
-    // $px 形参（参数）
-    // @return  返回值 结束函数
     @return ($px / 750) * 100vw;
 }
 
-// @function vh($px) {
-//     // $px 形参（参数）
-//     // @return  返回值 结束函数
-//     @return ($px / 1334) * 100vh;
-// }
+@function vh($px) {
+    @return ($px / 1334) * 100vh;
+}

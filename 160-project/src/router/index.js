@@ -1,5 +1,5 @@
-import Vue from 'vue';
-import VueRouter from 'vue-router';
+import Vue from "vue";
+import VueRouter from "vue-router";
 // 路由懒加载
 let Home = () => import('../views/Home/Home.vue');
 let List = () => import('../views/List/List.vue');
@@ -11,6 +11,12 @@ let Login = () => import('../views/Login/Login.vue');
 let Goodslist = () => import('../views/Home/Goodslist.vue');
 let Details = () => import('../views/Details/Details.vue');
 let Sortlist = () => import('../views/Sortlist/Sortlist.vue');
+
+//import HelloWorld from '@/components/HelloWorld'
+const originalPush = VueRouter.prototype.push;
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch((err) => err);
+};
 Vue.use(VueRouter);
 
 // 路由表
@@ -82,7 +88,7 @@ const routes = [
 ];
 // 注入实例
 const router = new VueRouter({
-    routes,
+  routes,
 });
 
 export default router;

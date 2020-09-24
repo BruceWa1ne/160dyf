@@ -4,6 +4,7 @@
         <van-tabbar v-model="active" active-color="#00d6d5">
             <van-tabbar-item
                 :icon="item.icon"
+                :badge="item.count"
                 v-for="item in list"
                 :key="item.id"
                 @click="move(item.path)"
@@ -44,6 +45,7 @@ export default {
                     name: '购物车',
                     icon: 'shopping-cart-o',
                     path: '/cart',
+                    count: 1,
                 },
                 {
                     id: 5,
@@ -77,7 +79,6 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
-@import '../../assets/sass/public/vw.scss';
+<style scoped>
 @import '../../assets/sass/public/common.scss';
 </style>
