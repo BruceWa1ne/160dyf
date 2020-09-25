@@ -76,14 +76,13 @@
 <script>
 //引用
 import userAPI from "../../api/userAPI";
+import { setToken, setUser } from "../../utils/auth";
 export default {
   data() {
     return {
       // 登录
       username: "",
       password: "",
-      // 复选框
-      checked: true,
       // 头部导航
       show: false,
       //免登录
@@ -106,9 +105,32 @@ export default {
     },
     //登录
     login() {
+      console.log(this.checked, "是否保存7天");
       let password = this.$md5(this.password);
       userAPI.login(this.username, password).then(res => {
         console.log(res.data, 999);
+        if (res.data.flag) {
+          //登录成功
+          //判断checked值是否保存多少天
+          if (this.checked) {
+            //保存7天
+            setToken(res.data.token, 7);
+            setUser(this.username, 7);
+          } else {
+            //保持会话级别
+            setToken(res.data.token);
+            setUser(this.username);
+          }
+          //跳转到首页
+          this.$router.push("/");
+        } else {
+          //登录失败
+          Dialog.alert({
+            message: "登录失败"
+          }).then(() => {
+            // on close
+          });
+        }
       });
     }
   },

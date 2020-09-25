@@ -17,6 +17,9 @@ Vue.config.productionTip = process.env.NODE_ENV === 'production';
 import md5 from "js-md5";
 Vue.prototype.$md5 = md5;
 
+//路由守卫
+import "./permission";
+
 new Vue({
     router,
     store,
