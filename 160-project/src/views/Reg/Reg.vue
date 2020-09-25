@@ -38,7 +38,9 @@
           left-icon="phone-o"
           label=" "
           placeholder="请输入用户名"
-          :rules="[{ pattern, message: '请输入正确的用户名格式' }]"
+          :rules="[
+            { pattern, message: '请输入正确的用户名格式:最少6位数字英文' }
+          ]"
         />
         <van-field
           v-model="password"
@@ -46,7 +48,9 @@
           left-icon="warning-o"
           label=" "
           placeholder="请输入密码"
-          :rules="[{ pattern, message: '请输入正确的密码格式' }]"
+          :rules="[
+            { pattern, message: '请输入正确的密码格式:最少6位数字英文' }
+          ]"
         />
         <div style="margin: 16px;" class="buttr">
           <van-button
@@ -151,10 +155,10 @@ export default {
       //验证：用户名和密码不为空+用户名验证通过
       if (this.ischeck && this.username && this.password) {
         //可以注册
+        let pass = this.$md5(this.password);
         userAPI
-          .reg(this.username, this.password)
+          .reg(this.username, pass)
           .then(res => {
-            console.log(res, "可以注册G");
             if (res.data.flag) {
               //注册成功
               Dialog.alert({
@@ -163,19 +167,29 @@ export default {
                 // on close
               });
               //跳转登录页
-              this.$router.push("/login");
+              this.$router.push({
+                path: "/login",
+                query: { username: this.username }
+              });
+            } else {
+              //注册失败
+              Dialog.alert({
+                message: "注册失败"
+              }).then(() => {
+                // on close
+              });
             }
           })
           .catch(err => {
             Dialog.alert({
-              message: "服务器请求异常"
+              message: "服务器异常"
             }).then(() => {
               // on close
             });
           });
       } else {
         Dialog.alert({
-          message: "用户名密码不能为空"
+          message: "用户名或密码不能为空"
         }).then(() => {
           // on close
         });

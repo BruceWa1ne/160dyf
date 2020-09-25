@@ -1,60 +1,78 @@
 <template>
     <div>
-        <van-nav-bar
-            title="购物车"
-            left-text=""
-            right-text="需求清单"
-            left-arrow
-            @click-left="onClickLeft"
-            @click-right="onClickRight"
-        />
-        <van-notice-bar :scrollable="false" text="慧医卡，购买指定商品送健康豆，可抵现金使用！" />
+        <!-- 下拉刷新 -->
+        <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+            <van-nav-bar
+                title="购物车"
+                left-text=""
+                right-text="需求清单"
+                left-arrow
+                @click-left="onClickLeft"
+                @click-right="onClickRight"
+            />
+            <van-notice-bar
+                :scrollable="false"
+                text="慧医卡，购买指定商品送健康豆，可抵现金使用！"
+            />
 
-        <!-- vant空状态 -->
-        <van-empty
-            v-show="isShow"
-            description="购物车还是空的~"
-            image="https://www.160dyf.com/Template/mobile/new/Static/images/flow/empty_cart.png"
-        >
-            <van-button round type="danger" class="bottom-button">
-                马上逛逛
-            </van-button>
-        </van-empty>
+            <!-- vant空状态 -->
+            <van-empty
+                v-show="isShow"
+                description="购物车还是空的~"
+                image="https://www.160dyf.com/Template/mobile/new/Static/images/flow/empty_cart.png"
+            >
+                <van-button round type="danger" class="bottom-button">
+                    马上逛逛
+                </van-button>
+            </van-empty>
 
-        <div v-for="shop in goodslist" :key="shop.id">
-            <!-- 店铺信息 -->
-            <van-cell :title="shop.title" icon="shop-o" />
-            <van-row style="background-color: white;" v-for="good in shop.goods" :key="good.gid">
-                <van-col span="2" style="margin-top: 35px;">
-                    <!-- 二级复选框 -->
-                    <van-checkbox
-                        checked-color="#00d2c3"
-                        name="item"
-                        v-model="good.ischecked"
-                    ></van-checkbox>
-                </van-col>
-                <!-- 商品信息 -->
-                <van-col span="22">
-                    <van-swipe-cell>
-                        <van-card
-                            :price="good.price * good.num"
-                            :desc="good.norms"
-                            :title="good.title"
-                            thumb="https://img.yzcdn.cn/vant/ipad.jpeg"
-                            class="goods-card"
-                        >
-                            <template #num>
-                                <van-stepper v-model="good.num" />
+            <div v-for="shop in goodslist" :key="shop.id">
+                <!-- 店铺信息 -->
+                <van-cell :title="'供应商：' + shop.title" icon="shop-o" />
+                <van-row
+                    style="background-color: white;"
+                    v-for="good in shop.goods"
+                    :key="good.gid"
+                >
+                    <van-col span="2" style="margin-top: 35px;">
+                        <!-- 二级复选框 -->
+                        <van-checkbox
+                            checked-color="#00d2c3"
+                            name="item"
+                            v-model="good.ischecked"
+                        ></van-checkbox>
+                    </van-col>
+                    <!-- 商品信息 -->
+                    <van-col span="22">
+                        <van-swipe-cell>
+                            <van-card
+                                :price="good.price * good.num"
+                                :desc="good.norms"
+                                :title="good.title"
+                                thumb="https://img.yzcdn.cn/vant/ipad.jpeg"
+                                class="goods-card"
+                            >
+                                <template #num>
+                                    <van-stepper
+                                        v-model.number="good.num"
+                                        theme="round"
+                                        button-size="22"
+                                    />
+                                </template>
+                            </van-card>
+                            <template #right>
+                                <van-button
+                                    square
+                                    icon="delete"
+                                    type="danger"
+                                    class="delete-button"
+                                />
                             </template>
-                        </van-card>
-                        <template #right>
-                            <van-button square icon="delete" type="danger" class="delete-button" />
-                        </template>
-                    </van-swipe-cell>
-                </van-col>
-            </van-row>
-        </div>
-
+                        </van-swipe-cell>
+                    </van-col>
+                </van-row>
+            </div>
+        </van-pull-refresh>
         <!-- vant提交订单栏 -->
         <van-submit-bar
             :price="totalPrice()"
@@ -84,7 +102,7 @@ export default {
                             title: '红茶',
                             norms: '默认',
                             size: 400,
-                            price: 320,
+                            price: 320.15,
                             stock: 18,
                             num: 1,
                             total: 320,
@@ -95,7 +113,7 @@ export default {
                             title: '绿茶',
                             norms: '默认',
                             size: 400,
-                            price: 300,
+                            price: 300.78,
                             stock: 6,
                             num: 1,
                             total: 300,
@@ -112,7 +130,7 @@ export default {
                             title: '好欢螺蛳粉',
                             norms: '默认',
                             size: 400,
-                            price: 108,
+                            price: 108.88,
                             stock: 10,
                             num: 1,
                             total: 108,
@@ -125,6 +143,7 @@ export default {
             total: 0, //总价
             isShow: false,
             num: 0,
+            isLoading: false,
         };
     },
 
@@ -135,7 +154,14 @@ export default {
             Toast('返回');
         },
         onClickRight() {
-            Toast('按钮');
+            Toast('需求清单');
+        },
+        // 下拉刷新
+        onRefresh() {
+            setTimeout(() => {
+                Toast('刷新成功');
+                this.isLoading = false;
+            }, 1000);
         },
         // 勾选计算总价
         totalPrice() {
@@ -248,6 +274,10 @@ export default {
     font-size: 20px;
     color: #ffb400;
 }
+.van-card__price-decimal {
+    font-size: 18px;
+    color: #ffb400;
+}
 .van-empty {
     background-color: #f8f7f7;
 }
@@ -268,5 +298,13 @@ export default {
 }
 .van-button__icon {
     font-size: 2rem;
+}
+.van-stepper--round /deep/ .van-stepper__plus {
+    background-color: #00d6d5;
+}
+.van-stepper--round /deep/ .van-stepper__minus {
+    color: #00d6d5;
+    background-color: #fff;
+    border: 1px solid #00d6d5;
 }
 </style>

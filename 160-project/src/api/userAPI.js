@@ -19,7 +19,28 @@ function reg(username, password) {
     });
 }
 
+//登录
+function login(username, password) {
+    return request.get("/user/login", {
+        params: {
+            username,
+            password,
+        },
+    });
+}
+
+//功能：校验token
+function checkToken(token) {
+    return request.get("/user/verify", {
+        params: {
+            token,
+        },
+    });
+}
+
 export default {
     checkName,
     reg,
+    login,
+    checkToken,
 }

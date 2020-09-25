@@ -2,7 +2,12 @@
   <div>
     <!-- 头部导航 -->
     <div>
-      <van-nav-bar title="登录" left-arrow @click-left="onClickLeft" id="herader_nav">
+      <van-nav-bar
+        title="登录"
+        left-arrow
+        @click-left="onClickLeft"
+        id="herader_nav"
+      >
         <template #right>
           <van-icon name="wap-nav" size="22" color="blcak" @click="showCont" />
         </template>
@@ -30,7 +35,7 @@
     <!-- 登录主体 -->
     <van-form @submit="onSubmit">
       <van-field
-        v-model="username"
+        v-model.trim="username"
         name="用户名"
         left-icon="phone-o"
         label=" "
@@ -47,7 +52,15 @@
         :rules="[{ required: true, message: '请填写密码' }]"
       />
       <div style="margin: 16px;" class="buttr">
-        <van-button round block type="info" native-type="submit" color="#00d3c2">登录</van-button>
+        <van-button
+          round
+          block
+          type="info"
+          native-type="submit"
+          color="#00d3c2"
+          @click="login"
+          >登录</van-button
+        >
       </div>
     </van-form>
     <!-- 底部注册切换 -->
@@ -61,6 +74,8 @@
 </template>
 
 <script>
+//引用
+import userAPI from "../../api/userAPI";
 export default {
   data() {
     return {
@@ -70,7 +85,9 @@ export default {
       // 复选框
       checked: true,
       // 头部导航
-      show: false
+      show: false,
+      //免登录
+      checked: ""
     };
   },
 
@@ -86,7 +103,19 @@ export default {
     },
     showCont: function() {
       this.show = !this.show;
+    },
+    //登录
+    login() {
+      let password = this.$md5(this.password);
+      userAPI.login(this.username, password).then(res => {
+        console.log(res.data, 999);
+      });
     }
+  },
+  //接收注册页面数据
+  created() {
+    console.log(this.$route);
+    this.username = this.$route.query.username;
   }
 };
 </script>
