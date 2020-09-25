@@ -29,12 +29,17 @@
   </div>
 </template>
 
+
 <script>
+import goodslistApi from "../../api/goodslistApi"
 export default {
   data() {
     return {
       checked: true,
-      show: false
+      show: false,
+      page: 1,
+      pagesiza: 10,
+      total: 0,
     };
   },
 
@@ -46,7 +51,16 @@ export default {
     },
     go(path) {
       this.$router.push(path);
-    }
+    },
+    fetchData() {
+      // let {page, pagesize, search} = this;
+      goodslistApi.getlists(this.page, this.pagesize).then((res) => {
+        console.log(res.data, 999);
+        this.tableData = res.data.data; //数据部分
+        this.total = res.data.total; //设置总条数
+      });
+    },
+
   },
   beforeRouteEnter(to, from, next) {
     window.document.body.style.backgroundColor = "#f5f5f5";
@@ -56,7 +70,11 @@ export default {
   beforeRouteLeave(to, from, next) {
     window.document.body.style.backgroundColor = "";
     next();
-  }
+  },
+
+  created() {
+    this.fetchData();
+  },
 };
 </script>
 
