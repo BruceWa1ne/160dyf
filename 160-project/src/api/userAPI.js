@@ -19,7 +19,17 @@ function reg(username, password) {
     });
 }
 
+//登录
+function login(username, password) {
+    return request.get("/user/login", {
+        params: {
+            username,
+            password,
+        },
+    });
+}
 export default {
     checkName,
     reg,
+    login,
 }

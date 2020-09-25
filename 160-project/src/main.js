@@ -13,6 +13,10 @@ Vue.use(Field);
 // true 生产环境：警告却没有用，反而会增加应用的体积
 Vue.config.productionTip = process.env.NODE_ENV === 'production';
 
+//引入md5加密插件
+import md5 from "js-md5";
+Vue.prototype.$md5 = md5;
+
 new Vue({
     router,
     store,
