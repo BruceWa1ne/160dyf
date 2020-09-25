@@ -28,8 +28,19 @@ function login(username, password) {
         },
     });
 }
+
+//功能：校验token
+function checkToken(token) {
+    return request.get("/user/verify", {
+        params: {
+            token,
+        },
+    });
+}
+
 export default {
     checkName,
     reg,
     login,
+    checkToken,
 }
