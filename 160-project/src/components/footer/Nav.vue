@@ -66,11 +66,17 @@ export default {
     },
 
     watch: {
-        //面试题：watch和updated有什么区别：watch一般用于监听某个属性的变化而执行功能，可以监听路由对象；updated只要data数据有变化都会触发，不能监听路由对象
+        // 监听路由对象
         $route: {
             deep: true,
             handler(newRoute) {
-                // console.log(newRoute);
+                let arr = ['home', 'contact', 'list', 'cart', 'mine'];
+                let index = arr.indexOf(this.$route.name);
+                if (index >= 0) {
+                    this.active = index;
+                } else {
+                    this.active = 0;
+                }
                 this.currentPath = newRoute.path;
             },
         },
