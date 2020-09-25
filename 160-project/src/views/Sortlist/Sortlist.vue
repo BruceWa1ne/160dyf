@@ -23,7 +23,10 @@
 
     <div class="sortlist-show">
       <van-grid :gutter="10" :column-num="2">
-        <van-grid-item v-for="value in 8" :key="value" icon="photo-o" text="文字" />
+        <!-- <van-grid-item v-for="value in 8" :key="value" icon="photo-o" text="文字" /> -->
+        <van-grid-item v-for="value in tableData" :key="value.id">
+          <van-image :src="value.url" />
+        </van-grid-item>
       </van-grid>
     </div>
   </div>
@@ -40,6 +43,7 @@ export default {
       page: 1,
       pagesiza: 10,
       total: 0,
+      tableData: [],
     };
   },
 
@@ -55,7 +59,7 @@ export default {
     fetchData() {
       // let {page, pagesize, search} = this;
       goodslistApi.getlists(this.page, this.pagesize).then((res) => {
-        console.log(res.data, 999);
+        console.log(res.data.data, 999);
         this.tableData = res.data.data; //数据部分
         this.total = res.data.total; //设置总条数
       });
