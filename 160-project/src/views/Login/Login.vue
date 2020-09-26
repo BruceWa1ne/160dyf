@@ -77,6 +77,7 @@
 //引用
 import userAPI from "../../api/userAPI";
 import { setToken, setUser } from "../../utils/auth";
+import { Dialog } from "vant";
 export default {
   data() {
     return {
