@@ -24,8 +24,10 @@
     <div class="sortlist-show">
       <van-grid :gutter="10" :column-num="2">
         <!-- <van-grid-item v-for="value in 8" :key="value" icon="photo-o" text="文字" /> -->
-        <van-grid-item v-for="value in tableData" :key="value.id">
-          <van-image :src="value.url" />
+        <van-grid-item v-for="value in tableData" :key="value._id">
+          <!-- <van-image :src="value.url" /> -->
+          <img src="" alt="" >
+          <span @click="toDetails(value._id)"> {{value.title}}</span>
         </van-grid-item>
       </van-grid>
     </div>
@@ -65,6 +67,16 @@ export default {
       });
     },
 
+    toDetails(id){ //跳转到详情页面
+				this.$router.push({
+					path:'/details',
+					query:{
+						id
+          },
+        });
+        // sessionStorage.setItem('id')
+			},
+
   },
   beforeRouteEnter(to, from, next) {
     window.document.body.style.backgroundColor = "#f5f5f5";
@@ -79,6 +91,7 @@ export default {
   created() {
     this.fetchData();
   },
+  
 };
 </script>
 

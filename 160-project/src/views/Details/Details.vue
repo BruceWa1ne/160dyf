@@ -33,25 +33,24 @@
       </div>
     </div>
     <!-- 轮播 -->
-    <div class="details-content">
-      <van-swipe class="my-swipe" indicator-color="#f00">
-        <van-swipe-item>1</van-swipe-item>
-        <van-swipe-item>2</van-swipe-item>
-        <van-swipe-item>3</van-swipe-item>
-        <van-swipe-item>4</van-swipe-item>
-      </van-swipe>
-    </div>
-    <!-- 商品标题 -->
-    <div class="details-title">
-      <div class="goods-name">希爱力 他达拉非片5mg*28片/盒 gw</div>
-    </div>
-    <div class="details-attached">
-      <div class="attached">适应症：治疗男性勃起功能障碍。</div>
-    </div>
-    <div class="details-price">
-      <div class="goods-prices">
-        <span>¥ 739.00</span>
-        <span>药房价格</span>
+    <div v-for="goodsdata in detalistdata" :key="goodsdata.id">
+      <div class="details-content">
+        <van-swipe class="my-swipe" indicator-color="#f00">
+          <van-swipe-item>1</van-swipe-item>
+        </van-swipe>
+      </div>
+      <!-- 商品标题 -->
+      <div class="details-title">
+        <div class="goods-name">{{goodsdata.title}}</div>
+      </div>
+      <div class="details-attached">
+        <div class="attached">适应症：治疗男性勃起功能障碍。</div>
+      </div>
+      <div class="details-price">
+        <div class="goods-prices">
+          <span>¥ 0</span>
+          <span>药房价格</span>
+        </div>
       </div>
     </div>
     <van-divider />
@@ -66,26 +65,49 @@
     <van-divider />
     <div class="details-procedure">
       <div>处方药处理流程</div>
-      <div class="clearfix" style="padding-top: 0.56667rem;
-    padding-bottom: 0.56667rem;">
+      <div
+        class="clearfix"
+        style="padding-top: 0.56667rem;
+    padding-bottom: 0.56667rem;"
+      >
         <div class="pr5 fl w-20">
-          <span class="bg-red" style="padding-top: .4em;width: 27px;height: 27px; ">1</span>
+          <span
+            class="bg-red"
+            style="padding-top: .4em;width: 27px;height: 27px; "
+            >1</span
+          >
           <p class="c-red">点击“需求登记”</p>
         </div>
         <div class="pr5 fl w-20">
-          <span class="bg-green" style="padding-top: .4em;width: 27px;height: 27px;">2</span>
+          <span
+            class="bg-green"
+            style="padding-top: .4em;width: 27px;height: 27px;"
+            >2</span
+          >
           <p class>确定药品信息</p>
         </div>
         <div class="pr5 fl w-20">
-          <span class="bg-green" style="padding-top: .4em;width: 27px;height: 27px;">3</span>
+          <span
+            class="bg-green"
+            style="padding-top: .4em;width: 27px;height: 27px;"
+            >3</span
+          >
           <p class>登记个人信息</p>
         </div>
         <div class="pr5 fl w-20">
-          <span class="bg-green" style="padding-top: .4em;width: 27px;height: 27px;">4</span>
+          <span
+            class="bg-green"
+            style="padding-top: .4em;width: 27px;height: 27px;"
+            >4</span
+          >
           <p class>药师审核</p>
         </div>
         <div class="fl w-20">
-          <span class="bg-green" style="padding-top: .4em;width: 27px;height: 27px;">5</span>
+          <span
+            class="bg-green"
+            style="padding-top: .4em;width: 27px;height: 27px;"
+            >5</span
+          >
           <p class>药房配送</p>
         </div>
       </div>
@@ -94,26 +116,53 @@
     <!-- 底部 -->
     <div class="details-footer">
       <van-goods-action>
-        <van-goods-action-icon icon="wap-home-o" text="首页" @click="onClickIcon" />
+        <van-goods-action-icon
+          icon="wap-home-o"
+          text="首页"
+          @click="onClickIcon"
+        />
         <van-goods-action-icon icon="chat-o" text="咨询" @click="onClickIcon" />
-        <van-goods-action-icon icon="cart-o" text="购物车" @click="onClickIcon" />
+        <van-goods-action-icon
+          icon="cart-o"
+          text="购物车"
+          @click="onClickIcon"
+        />
         <van-goods-action-button type="warning" text="加入购物车" />
-        <van-goods-action-button type="danger" text="立即购买" @click="onClickButton" />
+        <van-goods-action-button
+          type="danger"
+          text="立即购买"
+          @click="onClickButton"
+        />
       </van-goods-action>
     </div>
   </div>
 </template>
 
 <script>
+import goodslistApi from "../../api/goodslistApi";
+
 export default {
   data() {
     return {
       checked: true,
-      show: false
+      show: false,
+      detalistdata: [],
+      id: ""
     };
   },
 
   components: {},
+
+  // mounted() {
+  //     let goodsid = this.id;
+  //     goodslistApi.getlists(this.page, this.pagesize).then((res) => {
+  //       this.detalistdata = res.data.data;
+  //       let goodsdata = this.detalistdata.filter(item => {
+  //         return item._id == goodsid
+  //       })
+  //       console.log(goodsdata)
+  //     });
+  // },
 
   methods: {
     go(path) {
@@ -136,15 +185,27 @@ export default {
       // Toast('点击按钮');
     }
   },
-  beforeRouteEnter (to, from, next) {
-    window.document.body.style.backgroundColor = '#f5f5f5';
+  beforeRouteEnter(to, from, next) {
+    window.document.body.style.backgroundColor = "#f5f5f5";
     next();
   },
 
-  beforeRouteLeave (to, from, next) {
-    window.document.body.style.backgroundColor = '';
+  beforeRouteLeave(to, from, next) {
+    window.document.body.style.backgroundColor = "";
     next();
   },
+
+  mounted() {
+    this.id = this.$route.query.id;
+    console.log(this.id);
+    
+    goodslistApi.getlists(this.page, this.pagesize).then(res => {
+      this.detalistdata = res.data.data.filter(item => {
+        return item._id === this.id;
+      });
+    });
+  }
+  
 };
 </script>
 
