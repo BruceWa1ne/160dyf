@@ -4,7 +4,7 @@
         <div class="mine_top">
             <div class="top_content">
                 <van-image round width="70" height="70" src="https://img.yzcdn.cn/vant/cat.jpeg" />
-                <span class="user_id">{{ user }}</span>
+                <span class="user_id">{{ $store.state.user.username }}</span>
                 <van-image
                     width="64"
                     height="18"
@@ -119,9 +119,7 @@
 <script>
 export default {
     data() {
-        return {
-            user: '爱吃龙虾烩面的王子',
-        };
+        return {};
     },
 
     components: {},
