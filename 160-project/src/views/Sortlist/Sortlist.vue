@@ -46,7 +46,7 @@ export default {
       checked: true,
       show: false,
       page: 1,
-      pagesiza: 10,
+      pagesize: 40,
       total: 0,
       tableData: []
     };

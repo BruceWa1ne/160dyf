@@ -171,6 +171,7 @@
             :to="item.path"
             active-class="active"
             @click.native="getdata(item)"
+            @click="fetchData()"
           >
             <span style="font-size: 18.75px;">{{item.title}}</span>
             <span style="font-size: 11.25px;">{{item.affix}}</span>
@@ -185,7 +186,9 @@
 </template>
 
 <script>
+import goodslistApi from "../../api/goodslistApi";
 export default {
+  
   data() {
     return {
       time: 1*40*60*1000,
@@ -283,7 +286,11 @@ export default {
           path: "/home/Affordable",
           affix: "高性价比"
         }
-      ]
+      ],
+      page: 1,
+      pagesize: 40,
+      total: 0,
+      tableData: [],
     };
   },
 
@@ -291,11 +298,21 @@ export default {
 
   methods: {
     getdata(obj) {
-      console.log(obj, 999);
+      // console.log(obj, 999);
       localStorage.setItem("type", obj.title);
     },
     go(path) {
       this.$router.push(path);
+    },
+    fetchData() {
+      // let {page, pagesize, search} = this;
+      goodslistApi.getlists(this.page, this.pagesize).then(res => {
+        // console.log(res.data.data, 999);
+        this.tableData = res.data.data; //数据部分
+        this.total = res.data.total; //设置总条数
+      console.log(this.tableData)
+
+      });
     }
   },
 
@@ -309,9 +326,9 @@ export default {
     next();
   },
 
-  watch: {
-    
-  },
+  created(){
+    this.fetchData();
+  }
 };
 </script>
 

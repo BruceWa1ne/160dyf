@@ -5,23 +5,28 @@
             <div class="leftNav">
                 <!-- 侧边导航 -->
                 <van-sidebar v-model="activeKey">
-                    <van-sidebar-item title="item.name" />
+                    <van-sidebar-item
+                        :title="item.title"
+                        v-for="(item, index) in leftList"
+                        :key="item.cid"
+                        @click="leftNav(index)"
+                    />
                 </van-sidebar>
             </div>
             <!-- 二级分类 -->
             <div class="rightNav">
                 <!-- 右侧导航 -->
-                <dl>
-                    <span class="twoNavimg">
-                        <van-image width="100%" height="100%" fit="fill" src="itm.covImg" />
-                    </span>
+                <span class="twoNavimg">
+                    <van-image width="100%" height="100%" fit="fill" :src="imgList.covImg" />
+                </span>
+                <dl v-for="item in rightList" :key="item.did">
                     <dt>
-                        <a href="###">itm.title</a>
+                        <a href="###">{{ item.title }}</a>
                     </dt>
-                    <dd>
+                    <dd v-for="(drug) in drugnameList" :key="drug">
                         <div class="fenimg">
                             <div class="fen">
-                                <a href="###">itm.name</a>
+                                <a href="###">{{ drug }}</a>
                             </div>
                         </div>
                     </dd>
@@ -38,18 +43,37 @@ export default {
         return {
             leftList: [],
             rightList: [],
+            drugnameList: [],
             activeKey: 0,
             currentPath: '/list',
+            imgList: {
+                covImg:
+                    'https://www.160dyf.com/Public/upload/category/2017/12-14/400x200/5a325546ccd46.jpg',
+            },
         };
     },
 
     components: {},
 
-    methods: {},
+    methods: {
+        // 侧边导航切换
+        leftNav(index) {
+            categoryAPi.getCategory(this.page, this.pagesize).then(res => {
+                this.leftList = res.data.data[0].data;
+                this.rightList = this.leftList[index].drugs;
+                console.log(this.rightList)
+                this.drugnameList = this.rightList[0].name;
+                console.log(this.drugnameList)
+            });
+        },
+    },
 
     mounted() {
         categoryAPi.getCategory(this.page, this.pagesize).then(res => {
-            console.log(res.data.data, 999);
+            this.leftList = res.data.data[0].data;
+            this.rightList = this.leftList[0].drugs;
+            this.drugnameList = this.rightList[0].name;
+            console.log(this.drugnameList)
         });
     },
 
@@ -93,17 +117,17 @@ export default {
 }
 
 /* 内容区 */
-dl {
-    height: 100%;
-    /* overflow-y: scroll; */
-}
-dl .twoNavimg {
+.twoNavimg {
     width: 17rem;
     height: 6.5rem;
     display: block;
     margin-top: 0.5rem;
     margin-left: 0.3rem;
 }
+dl {
+    overflow-y: scroll;
+}
+
 dl dt {
     margin-left: 0.3rem;
     margin-top: 1rem;
@@ -117,10 +141,8 @@ dl dt a {
     color: #00d2c3;
 }
 dl dd .fenimg {
-    width: 100%;
     margin-left: 0.3rem;
     margin-top: 0.5rem;
-    overflow: hidden;
 }
 dl dd .fenimg .fen {
     min-width: 33.3%;

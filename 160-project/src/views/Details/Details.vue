@@ -121,13 +121,13 @@
         <van-goods-action-icon
           icon="wap-home-o"
           text="首页"
-          @click="onClickIcon"
+          @click="go('/home')"
         />
-        <van-goods-action-icon icon="chat-o" text="咨询" @click="onClickIcon" />
+        <van-goods-action-icon icon="chat-o" text="咨询" @click="go('/contact')" />
         <van-goods-action-icon
           icon="cart-o"
           text="购物车"
-          @click="onClickIcon"
+          @click="go('/cart')"
         />
         <van-goods-action-button type="warning" text="加入购物车" />
         <van-goods-action-button
