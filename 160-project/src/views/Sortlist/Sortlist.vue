@@ -26,8 +26,11 @@
         <!-- <van-grid-item v-for="value in 8" :key="value" icon="photo-o" text="文字" /> -->
         <van-grid-item v-for="value in tableData" :key="value._id">
           <!-- <van-image :src="value.url" /> -->
-          <img src="" alt="" >
-          <span @click="toDetails(value._id)"> {{value.title}}</span>
+          <van-image :src="value.url" @click="toDetails(value._id)" />
+          <div>
+            <span @click="toDetails(value._id)"> {{ value.title }}</span>
+            <span>¥{{value.price}}</span>
+          </div>
         </van-grid-item>
       </van-grid>
     </div>
@@ -36,7 +39,7 @@
 
 
 <script>
-import goodslistApi from "../../api/goodslistApi"
+import goodslistApi from "../../api/goodslistApi";
 export default {
   data() {
     return {
@@ -45,7 +48,7 @@ export default {
       page: 1,
       pagesiza: 10,
       total: 0,
-      tableData: [],
+      tableData: []
     };
   },
 
@@ -60,23 +63,23 @@ export default {
     },
     fetchData() {
       // let {page, pagesize, search} = this;
-      goodslistApi.getlists(this.page, this.pagesize).then((res) => {
+      goodslistApi.getlists(this.page, this.pagesize).then(res => {
         console.log(res.data.data, 999);
         this.tableData = res.data.data; //数据部分
         this.total = res.data.total; //设置总条数
       });
     },
 
-    toDetails(id){ //跳转到详情页面
-				this.$router.push({
-					path:'/details',
-					query:{
-						id
-          },
-        });
-        // sessionStorage.setItem('id')
-			},
-
+    toDetails(id) {
+      //跳转到详情页面
+      this.$router.push({
+        path: "/details",
+        query: {
+          id
+        }
+      });
+      // sessionStorage.setItem('id')
+    }
   },
   beforeRouteEnter(to, from, next) {
     window.document.body.style.backgroundColor = "#f5f5f5";
@@ -90,8 +93,7 @@ export default {
 
   created() {
     this.fetchData();
-  },
-  
+  }
 };
 </script>
 
@@ -173,10 +175,34 @@ export default {
 }
 .sortlist-show {
   padding-top: 10px;
+  .van-grid{
+    padding-left: 0.5rem!important;
+  }
   .van-grid-item {
     height: 226px;
+    padding-right: 0.5rem!important;
     ::v-deep .van-grid-item__content {
       background-color: #fff;
+    }
+    div {
+      display: flex;
+      flex-direction: column;
+      // padding-left: .26667rem;
+      padding-top: .40rem;
+      // padding-right: .26667rem;
+      span:nth-of-type(1) {
+        // overflow: hidden;
+        // text-overflow: ellipsis;
+        // white-space: nowrap;
+        font-size: .77333rem;
+        padding-top: .25rem;
+      }
+      span:nth-of-type(2){
+        color: #f22e00;
+        font-size: 1.2rem;
+        padding-top: .25rem;
+
+      } 
     }
   }
 }
