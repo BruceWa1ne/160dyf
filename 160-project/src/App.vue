@@ -22,7 +22,6 @@ export default {
     watch: {
         $route: function(r){
             this.footer_show = r.path !== '/details';
-            this.footer_show = r.path !== '/sortlist';
         }
     },
 };

@@ -36,19 +36,21 @@
     <div v-for="goodsdata in detalistdata" :key="goodsdata.id">
       <div class="details-content">
         <van-swipe class="my-swipe" indicator-color="#f00">
-          <van-swipe-item>1</van-swipe-item>
+          <van-swipe-item>
+          <van-image :src="goodsdata.url" />  
+          </van-swipe-item>
         </van-swipe>
       </div>
       <!-- 商品标题 -->
       <div class="details-title">
-        <div class="goods-name">{{goodsdata.title}}</div>
+        <span class="goods-name">{{goodsdata.title}}</span>
       </div>
       <div class="details-attached">
         <div class="attached">适应症：治疗男性勃起功能障碍。</div>
       </div>
       <div class="details-price">
         <div class="goods-prices">
-          <span>¥ 0</span>
+          <span>¥ {{goodsdata.price}}</span>
           <span>药房价格</span>
         </div>
       </div>
@@ -195,7 +197,7 @@ export default {
     next();
   },
 
-  mounted() {
+  created() {
     this.id = this.$route.query.id;
     console.log(this.id);
     
@@ -292,8 +294,6 @@ export default {
 .details-title {
   padding: 1.2rem;
   background: #fff;
-  .goods-name {
-  }
 }
 .details-attached {
   padding: 0.6rem 1.2rem;
