@@ -12,7 +12,6 @@ function setCookie(key, value, iDay) {
     } else {
         document.cookie = key + '=' + value + ';path=/';
     }
-
 }
 
 function getCookie(key) {
@@ -58,5 +57,4 @@ export function getUser() {
 export function logOut() {
     removeCookie(tokenkey);
     removeCookie(userkey);
-
 }
