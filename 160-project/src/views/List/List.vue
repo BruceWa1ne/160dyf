@@ -23,9 +23,9 @@
                     <dt>
                         <a href="###">{{ item.title }}</a>
                     </dt>
-                    <dd v-for="(drug) in drugnameList" :key="drug">
+                    <dd v-for="drug in drugnameList" :key="drug">
                         <div class="fenimg">
-                            <div class="fen">
+                            <div class="fen" @click="rightNav">
                                 <a href="###">{{ drug }}</a>
                             </div>
                         </div>
@@ -56,15 +56,18 @@ export default {
     components: {},
 
     methods: {
-        // 侧边导航切换
+        // 左侧导航切换
         leftNav(index) {
             categoryAPi.getCategory(this.page, this.pagesize).then(res => {
                 this.leftList = res.data.data[0].data;
                 this.rightList = this.leftList[index].drugs;
-                console.log(this.rightList)
                 this.drugnameList = this.rightList[0].name;
-                console.log(this.drugnameList)
             });
+        },
+
+        // 右侧导航切换
+        rightNav() {
+            this.$router.push({ path: '/sortlist' });
         },
     },
 
@@ -73,25 +76,8 @@ export default {
             this.leftList = res.data.data[0].data;
             this.rightList = this.leftList[0].drugs;
             this.drugnameList = this.rightList[0].name;
-            console.log(this.drugnameList)
         });
     },
-
-    // created() {
-    //     this.$set(this.newList, 0, this.list[0]);
-    //     console.log(this.newList);
-    //     let path = this.$route.path;
-    //     this.list.forEach((item, index) => {
-    //         if (item.path == path) {
-    //             this.activeKey = index;
-    //         }
-    //     });
-    // },
-    // watch: {
-    //     activeKey: function() {
-    //         this.$set(this.newList, 0, this.list[this.activeKey]);
-    //     },
-    // },
 };
 </script>
 
