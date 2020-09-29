@@ -92,7 +92,7 @@ export default {
     methods: {
         // 导航方法
         onSubmit(values) {
-            console.log('submit', values);
+            // console.log('submit', values);
         },
         onClickLeft() {
             this.$router.go(-1);
@@ -102,22 +102,15 @@ export default {
         },
         //登录
         login() {
-            console.log(this.checked, '是否保存7天');
             let password = this.$md5(this.password);
-            userAPI.login(this.username, password).then(res => {
-                console.log(res.data, 999);
+            let payload = {
+                username: this.username,
+                password: password,
+                checked: this.checked,
+            };
+            this.$store.dispatch('login', payload).then(res => {
+                console.log(res);
                 if (res.data.flag) {
-                    //登录成功
-                    //判断checked值是否保存多少天
-                    if (this.checked) {
-                        //保存7天
-                        setToken(res.data.token, 7);
-                        setUser(this.username, 7);
-                    } else {
-                        //保持会话级别
-                        setToken(res.data.token);
-                        setUser(this.username);
-                    }
                     //跳转到首页
                     this.$router.push('/');
                 } else {
