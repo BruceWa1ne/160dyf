@@ -26,7 +26,7 @@
         <van-grid :border="false" :column-num="5">
           <van-grid-item v-for="imgval in imglist" :key="imgval.id">
             <van-image :src="imgval.src" @click="go('/sortlist')"></van-image>
-            <van-tag plain type="primary">{{imgval.imgcontent}}</van-tag>
+            <van-tag plain type="primary">{{ imgval.imgcontent }}</van-tag>
           </van-grid-item>
         </van-grid>
       </div>
@@ -76,11 +76,20 @@
       <div class="shopshow">
         <div class="shopshow-list">
           <div class="big-shopshow">
-            <img :src="require('../../assets/img/test/5f335bbfa680b.jpg')" alt />
+            <img
+              :src="require('../../assets/img/test/5f335bbfa680b.jpg')"
+              alt
+            />
           </div>
           <div class="small-shopshow">
-            <img :src="require('../../assets/img/test/5f335c0a138fd.jpg')" alt />
-            <img :src="require('../../assets/img/test/5f55f4b1dbbbb.png')" alt />
+            <img
+              :src="require('../../assets/img/test/5f335c0a138fd.jpg')"
+              alt
+            />
+            <img
+              :src="require('../../assets/img/test/5f55f4b1dbbbb.png')"
+              alt
+            />
           </div>
         </div>
       </div>
@@ -115,45 +124,65 @@
           style="padding: 0px 2.8%; background: rgb(255, 255, 255); height: 100%; display: flex; align-items: center; border-radius: 15px;"
         >
           <img :src="require('../../assets/img/logos/s23e87h.png')" alt />
-          <van-swipe style="height: 50px; width: 74%;" :autoplay="1000" vertical>
+          <van-swipe
+            style="height: 50px; width: 74%;"
+            :autoplay="1000"
+            vertical
+          >
             <van-swipe-item>
               <ul style="line-height: 24.375px; font-size: 12.75px;">
                 <li
                   style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; color: rgb(153, 153, 153);"
-                >利肺片价格怎么样？多少钱？</li>
+                >
+                  利肺片价格怎么样？多少钱？
+                </li>
                 <li
                   style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; color: rgb(153, 153, 153);"
-                >胎教到底有没有用？</li>
+                >
+                  胎教到底有没有用？
+                </li>
               </ul>
             </van-swipe-item>
             <van-swipe-item>
               <ul style="line-height: 24.375px; font-size: 12.75px;">
                 <li
                   style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; color: rgb(153, 153, 153);"
-                >利肺片价格怎么样？多少钱？</li>
+                >
+                  利肺片价格怎么样？多少钱？
+                </li>
                 <li
                   style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; color: rgb(153, 153, 153);"
-                >胎教到底有没有用？</li>
+                >
+                  胎教到底有没有用？
+                </li>
               </ul>
             </van-swipe-item>
             <van-swipe-item>
               <ul style="line-height: 24.375px; font-size: 12.75px;">
                 <li
                   style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; color: rgb(153, 153, 153);"
-                >利肺片价格怎么样？多少钱？</li>
+                >
+                  利肺片价格怎么样？多少钱？
+                </li>
                 <li
                   style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; color: rgb(153, 153, 153);"
-                >胎教到底有没有用？</li>
+                >
+                  胎教到底有没有用？
+                </li>
               </ul>
             </van-swipe-item>
             <van-swipe-item>
               <ul style="line-height: 24.375px; font-size: 12.75px;">
                 <li
                   style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; color: rgb(153, 153, 153);"
-                >利肺片价格怎么样？多少钱？</li>
+                >
+                  利肺片价格怎么样？多少钱？
+                </li>
                 <li
                   style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; color: rgb(153, 153, 153);"
-                >胎教到底有没有用？</li>
+                >
+                  胎教到底有没有用？
+                </li>
               </ul>
             </van-swipe-item>
           </van-swipe>
@@ -170,15 +199,17 @@
             tag="div"
             :to="item.path"
             active-class="active"
-            @click.native="getdata(item)"
-            @click="fetchData()"
+            @click.native="routerRefresh();getdata(item)"
           >
-            <span style="font-size: 18.75px;">{{item.title}}</span>
-            <span style="font-size: 11.25px;">{{item.affix}}</span>
+            <span style="font-size: 18.75px;">{{ item.title }}</span>
+            <span style="font-size: 11.25px;">{{ item.affix }}</span>
           </router-link>
         </div>
-        <div id="goods-list-inf" style="display: flex; justify-content: space-between;">
-          <router-view />
+        <div
+          id="goods-list-inf"
+          style="display: flex; justify-content: space-between;"
+        >
+          <router-view v-if="routerNew" />
         </div>
       </div>
     </main>
@@ -187,11 +218,11 @@
 
 <script>
 import goodslistApi from "../../api/goodslistApi";
+
 export default {
-  
   data() {
     return {
-      time: 1*40*60*1000,
+      time: 1 * 40 * 60 * 1000,
       imglist: [
         {
           id: 1,
@@ -287,10 +318,10 @@ export default {
           affix: "高性价比"
         }
       ],
-      page: 1,
-      pagesize: 40,
-      total: 0,
-      tableData: [],
+      // goodsData: [],
+      // page: 1,
+      // pagesize: 40,
+      routerNew: true
     };
   },
 
@@ -298,22 +329,39 @@ export default {
 
   methods: {
     getdata(obj) {
-      // console.log(obj, 999);
-      localStorage.setItem("type", obj.title);
+      console.log(obj, 999);
+      localStorage.setItem("type", obj.path);
+      console.log(obj.path, 888);
     },
     go(path) {
       this.$router.push(path);
     },
-    fetchData() {
-      // let {page, pagesize, search} = this;
-      goodslistApi.getlists(this.page, this.pagesize).then(res => {
-        // console.log(res.data.data, 999);
-        this.tableData = res.data.data; //数据部分
-        this.total = res.data.total; //设置总条数
-      console.log(this.tableData)
-
+    routerRefresh() {
+      this.routerNew = false;
+      console.log(this.routerNew,777)
+      this.$nextTick(() => {
+        this.routerNew = true;
       });
     }
+
+    // fetchData() {
+    //   // let {page, pagesize, search} = this;
+    //   goodslistApi.getlists(this.page, this.pagesize).then(res => {
+    //     // console.log(res.data.data, 999);
+    //     this.goodsData = res.data.data; //数据部分
+    //     this.total = res.data.total; //设置总条数
+    //     console.log(this.goodsData)
+    //   });
+    // },
+
+    // toDetails(id) {
+    //   this.$router.push({
+    //     path: "/details/${item.path}",
+    //     query: {
+    //       id: item.id
+    //     }
+    //   });
+    // }
   },
 
   beforeRouteEnter(to, from, next) {
@@ -326,8 +374,8 @@ export default {
     next();
   },
 
-  created(){
-    this.fetchData();
+  created() {
+    // this.fetchData();
   }
 };
 </script>
