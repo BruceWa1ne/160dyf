@@ -1,115 +1,106 @@
 <template>
-  <div
-    style="display: flex;
-  justify-content: space-between;"
-  >
-    <!-- <div style="font-size: 16px; margin-right: 1%;" >
-      <div class="left-goods-list">
-        <div></div>
-        <p></p>
-        <label style="font-size: 15.75px;">
-          <span style="color: rgb(242, 46, 0); margin-left: 6%;">￥9.00</span>
-          <span
-            style="margin-left: 6%; color: rgb(190, 190, 190); text-decoration: line-through;"
-          >￥18.00</span>
-        </label>
-      </div>
-    </div> -->
-    <div style="font-size: 16px; margin-left: 1%;">
-      <div class="right-goods-list">
-        <div></div>
-        <p>Robert Oatley 酿酒师典藏霞多丽干白葡萄酒2017</p>
-        <label style="font-size: 15.75px;">
-          <span style="color: rgb(242, 46, 0); margin-left: 6%;">￥9.00</span>
-          <span
-            style="margin-left: 6%; color: rgb(190, 190, 190); text-decoration: line-through;"
-            >￥18.00</span
-          >
-        </label>
-      </div>
-    </div>
+  <div class="goodslist">
+    <van-grid :gutter="10" :column-num="2">
+      <!-- <van-grid-item v-for="value in 8" :key="value" icon="photo-o" text="文字" /> -->
+      <van-grid-item v-for="value in tableData" :key="value._id">
+        <!-- <van-image :src="value.url" /> -->
+        <van-image :src="value.url" @click="toDetails(value._id)" />
+        <div>
+          <span @click="toDetails(value._id)"> {{ value.title }}</span>
+          <span>¥{{ value.price }}</span>
+        </div>
+      </van-grid-item>
+    </van-grid>
   </div>
 </template>
 
 <script>
+import goodslistApi from "../../api/goodslistApi";
+
 export default {
   data() {
     return {
-      datalist: ""
+      page: "",
+      pagesize: 40,
+      tableData: [],
+      listpath: ""
     };
   },
 
   components: {},
 
-  methods: {},
+  methods: {
+    fetchData() {
+      // let {page, pagesize, search} = this;
+      if (this.listpath === "/home/all") {
+        this.page = 1;
+      } else if (this.listpath === "/home/sales") {
+        this.page = 2;
+      } else if (this.listpath === "/home/Affordable") {
+        this.page = 3;
+      }
+      goodslistApi.getlists(this.page, this.pagesize).then(res => {
+        // console.log(res.data.data);
+        this.tableData = res.data.data; //数据部分
+      });
+    }
+  },
 
   created() {
     //发送请求，获取第一个分类的数据先渲染到页面。
-    // console.log(localStorage.getItem("type"), 999);
-    // this.datalist = localStorage.getItem("type");
+    // console.log(localStorage.getItem("type"));
+    this.listpath = localStorage.getItem("type");
+    this.fetchData();
   },
 
   watch: {
     $route: {
       deep: true,
       handler(newRoute) {
-        console.log(newRoute, 123);
+        // console.log(newRoute.path, 123);
         //获取关键字，发送ajax，拿到的数据，放到 datalist
       }
+    },
+    tableData: {
+      deep: true,
+      handler(newval) {
+        console.log(newval);
     }
+  }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-// .left-goods-list {
-//   background: rgb(255, 255, 255);
-//   margin-bottom: 3%;
-//   border-radius: 15px;
-//   overflow: hidden;
-//   width: 175.125px;
-//   height: 285px;
-//   div {
-//     width: 100%;
-//     padding-bottom: 100%;
-//     background:url("../../assets/img/test/5cadf3b726009.jpg");
-//   }
-//   p {
-//     margin: 6%;
-//     color: rgb(51, 51, 51);
-//     display: -webkit-box;
-//     overflow: hidden;
-//     text-overflow: ellipsis;
-//     -webkit-line-clamp: 2;
-//     -webkit-box-orient: vertical;
-//     font-size: 13px;
-//   }
-// }
-.right-goods-list {
-  background: rgb(255, 255, 255);
-  margin-bottom: 3%;
-  border-radius: 15px;
-  overflow: hidden;
-  width: 175.125px;
-  height: 285px;
-  div {
-    width: 100%;
-    padding-bottom: 100%;
-    background: url("../../assets/img/test/5f0839f40d556.jpg");
+.goodslist {
+  padding-top: 10px;
+  .van-grid {
+    padding-left: 0.5rem !important;
   }
-  p {
-    margin: 6%;
-    color: rgb(51, 51, 51);
-    display: -webkit-box;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    font-size: 0.9rem;
-  }
-  label {
-    span {
-      font-size: 1.2rem;
+  .van-grid-item {
+    height: 226px;
+    padding-right: 0.5rem !important;
+    ::v-deep .van-grid-item__content {
+      background-color: #fff;
+    }
+    div {
+      display: flex;
+      flex-direction: column;
+      // padding-left: .26667rem;
+      padding-top: 0.4rem;
+      // padding-right: .26667rem;
+      span:nth-of-type(1) {
+        // overflow: hidden;
+        // text-overflow: ellipsis;
+        // white-space: nowrap;
+        font-size: 0.77333rem;
+        padding-top: 0.25rem;
+      }
+      span:nth-of-type(2) {
+        color: #f22e00;
+        font-size: 1.2rem;
+        padding-top: 0.25rem;
+      }
     }
   }
 }
