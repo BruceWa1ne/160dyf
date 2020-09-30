@@ -9,19 +9,22 @@ export default {
     */
   state: {
     token: getToken(),
-    username: getUser(),
+    username: getUser() ? JSON.parse(getUser()).username : "",
+    uid: getUser() ? JSON.parse(getUser()).uid : "",
   },
 
   mutations: {
     // 更新状态
     update(state) {
       state.token = getToken();
-      state.username = getUser();
+      state.username = getUser() ? JSON.parse(getUser()).username : "";
+      state.uid = getUser() ? JSON.parse(getUser()).uid : "";
     },
 
     clear(state) {
       state.token = "";
       state.username = "";
+      state.uid = "";
     },
   },
 
@@ -32,16 +35,21 @@ export default {
         userAPI
           .login(username, password)
           .then((res) => {
+            console.log(res);
             // 成功回调
             if (res.data.flag) {
+              let userinfo = {
+                username,
+                uid: res.data.uid,
+              };
               if (checked) {
                 // 保留七天
                 setToken(res.data.token, 7);
-                setUser(username, 7);
+                setUser(JSON.stringify(userinfo), 7);
               } else {
                 //保持会话级别
                 setToken(res.data.token);
-                setUser(username);
+                setUser(JSON.stringify(userinfo));
               }
               Dialog.alert({
                 theme: "round-button",

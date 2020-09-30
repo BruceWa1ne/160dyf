@@ -37,14 +37,14 @@
 
     <!-- 信息 -->
     <div class="user_msg">
-      <van-cell title="昵称" is-link value="内容" />
-      <van-cell title="性别" is-link value="内容" />
-      <van-cell title="邮箱" is-link value="内容" />
-      <van-cell title="手机号码" is-link value="内容" />
+      <van-cell title="昵称" is-link :value="$store.state.user.username" />
+      <van-cell title="性别" is-link value="保密" />
+      <van-cell title="邮箱" is-link />
+      <van-cell title="手机号码" is-link value="保密" />
     </div>
     <!-- 修改密码 -->
     <div class="user_pwd">
-      <van-cell title="修改密码" is-link value="内容" />
+      <van-cell title="修改密码" is-link to="/editpwd" />
     </div>
     <!-- 退出登录 -->
     <van-button
