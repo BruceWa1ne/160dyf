@@ -7,7 +7,7 @@
           round
           width="70"
           height="70"
-          src="https://img.yzcdn.cn/vant/cat.jpeg"
+          src="https://www.160dyf.com//Public/vue2/static/img/headPortrait@3x.2ac5e73.png"
         />
         <span class="user_id">{{ $store.state.user.username }}</span>
         <van-image
@@ -152,6 +152,9 @@ export default {
   border-bottom: 0.026667rem solid #f9f9f9;
   text-align: center;
   padding: 1.25rem 0rem 0.625rem 0rem;
+}
+.top_content /deep/ .van-image--round {
+  border: 1px solid #00d6d5;
 }
 .mine_top .user_id {
   display: block;
