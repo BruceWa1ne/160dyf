@@ -183,7 +183,7 @@ export default {
         if (res.data.flag) {
           // 修改成功
           Dialog.alert({
-            message: "修改成功",
+            message: "修改成功,请重新登录哦！",
           }).then(() => {
             this.$router.push("/login");
             logOut();
@@ -200,11 +200,9 @@ export default {
 
   // 进入页面就获取用户名
   created() {
-    // 获取用户名
+    // 获取用户名 uid
     this.uid = this.$store.state.user.uid;
-    console.log(this.uid);
     this.username = this.$store.state.user.username;
-    console.log(this.username);
   },
 };
 </script>

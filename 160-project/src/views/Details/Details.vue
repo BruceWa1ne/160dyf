@@ -4,8 +4,13 @@
     <div class="details-nav">
       <van-nav-bar title="商品详情" left-arrow @click-left="onClickLeft">
         <template #right>
-          <van-icon name="shopping-cart-o" size="22" @click="go('/cart')" />
-          <van-icon name="ellipsis" size="22" color="blcak" @click="showCont" />
+          <van-icon
+            name="shopping-cart-o"
+            size="22"
+            color="black"
+            @click="go('/cart')"
+          />
+          <van-icon name="ellipsis" size="22" color="black" @click="showCont" />
         </template>
       </van-nav-bar>
       <div v-if="show" class="details-header-list">
@@ -33,24 +38,24 @@
       </div>
     </div>
     <!-- 轮播 -->
-    <div v-for="goodsdata in detalistdata" :key="goodsdata.id">
+    <div v-for="goodsdata in details" :key="goodsdata.id">
       <div class="details-content">
         <van-swipe class="my-swipe" indicator-color="#f00">
           <van-swipe-item>
-          <van-image :src="goodsdata.url" />  
+            <van-image :src="goodsdata.url" />
           </van-swipe-item>
         </van-swipe>
       </div>
       <!-- 商品标题 -->
       <div class="details-title">
-        <span class="goods-name">{{goodsdata.title}}</span>
+        <span class="goods-name">{{ goodsdata.title }}</span>
       </div>
       <div class="details-attached">
         <div class="attached">适应症：治疗男性勃起功能障碍。</div>
       </div>
       <div class="details-price">
         <div class="goods-prices">
-          <span>¥ {{goodsdata.price}}</span>
+          <span>¥ {{ goodsdata.price }}</span>
           <span>药房价格</span>
         </div>
       </div>
@@ -123,13 +128,21 @@
           text="首页"
           @click="go('/home')"
         />
-        <van-goods-action-icon icon="chat-o" text="咨询" @click="go('/contact')" />
+        <van-goods-action-icon
+          icon="chat-o"
+          text="咨询"
+          @click="go('/contact')"
+        />
         <van-goods-action-icon
           icon="cart-o"
           text="购物车"
           @click="go('/cart')"
         />
-        <van-goods-action-button type="warning" text="加入购物车" />
+        <van-goods-action-button
+          type="warning"
+          @click="addCarts"
+          text="加入购物车"
+        />
         <van-goods-action-button
           type="danger"
           text="立即购买"
@@ -141,30 +154,19 @@
 </template>
 
 <script>
-import goodslistApi from "../../api/goodslistApi";
-
+import goodsDetailsApi from "../../api/detailAPi";
+import { Toast } from "vant";
 export default {
   data() {
     return {
       checked: true,
       show: false,
-      detalistdata: [],
-      id: ""
+      details: [], // 接收服务器传回的商品
+      carts: [], // 购物车商品
     };
   },
 
   components: {},
-
-  // mounted() {
-  //     let goodsid = this.id;
-  //     goodslistApi.getlists(this.page, this.pagesize).then((res) => {
-  //       this.detalistdata = res.data.data;
-  //       let goodsdata = this.detalistdata.filter(item => {
-  //         return item._id == goodsid
-  //       })
-  //       console.log(goodsdata)
-  //     });
-  // },
 
   methods: {
     go(path) {
@@ -184,8 +186,26 @@ export default {
       // Toast('点击图标');
     },
     onClickButton() {
-      // Toast('点击按钮');
-    }
+      Toast("购买成功");
+    },
+    // 加入购物车
+    addCarts() {
+      Toast.success("加入购物车成功");
+      let rel = true;
+      this.carts.map((item) => {
+        if (item.data.id == this.details[0]._id) {
+          item.num++;
+          rel = false;
+        }
+      });
+      if (rel) {
+        this.carts.push({
+          data: this.details,
+          num: 1,
+        });
+      }
+      localStorage.carts = JSON.stringify(this.carts);
+    },
   },
   beforeRouteEnter(to, from, next) {
     window.document.body.style.backgroundColor = "#f5f5f5";
@@ -198,20 +218,24 @@ export default {
   },
 
   created() {
-    this.id = this.$route.query.id;
-    console.log(this.id);
-    
-    goodslistApi.getlists(this.page, this.pagesize).then(res => {
-      this.detalistdata = res.data.data.filter(item => {
-        return item._id === this.id;
-      });
+    let carts = localStorage.carts;
+    if (carts) {
+      this.carts = JSON.parse(carts);
+    }
+  },
+
+  mounted() {
+    let gid = this.$route.query.id;
+    // console.log(gid);
+    goodsDetailsApi.getDetails(gid).then((res) => {
+      this.details = res.data.data;
+      // console.log(this.details[0]._id);
     });
-  }
-  
+  },
 };
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 .details-nav {
   position: fixed;
   width: 100%;
@@ -280,6 +304,10 @@ export default {
       line-height: 150px;
       text-align: center;
       background-color: #39a9ed;
+      .van-image {
+        width: 100%;
+        height: 100%;
+      }
     }
     ::v-deep .van-swipe__indicator {
       width: 8px;
