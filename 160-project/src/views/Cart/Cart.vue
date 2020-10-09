@@ -24,46 +24,48 @@
       </van-button>
     </van-empty>
 
-    <!-- 商品信息 -->
-    <div v-for="(item, index) in carts" :key="item.data[0]._id">
-      <van-checkbox-group v-model="result" @change="onChecked">
-        <van-row style="background-color: white;">
-          <!-- 二级复选框 -->
-          <van-col span="2" style="margin-top: 35px;">
-            <van-checkbox checked-color="#00d2c3" :name="item"></van-checkbox
-          ></van-col>
-          <van-col span="22">
-            <van-swipe-cell>
-              <van-card
-                :price="item.data[0].price * item.num"
-                :desc="item.data[0].title"
-                :title="item.data[0].title"
-                :thumb="item.data[0].url"
-                class="goods-card"
-              >
-                <template #num>
-                  <van-stepper
-                    v-model.number="item.num"
-                    @change="onNum"
-                    theme="round"
-                    button-size="22"
+    <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+      <!-- 商品信息 -->
+      <div v-for="(item, index) in carts" :key="item.data[0]._id">
+        <van-checkbox-group v-model="result" @change="onChecked">
+          <van-row style="background-color: white;">
+            <!-- 二级复选框 -->
+            <van-col span="2" style="margin-top: 35px;">
+              <van-checkbox checked-color="#00d2c3" :name="item"></van-checkbox
+            ></van-col>
+            <van-col span="22">
+              <van-swipe-cell>
+                <van-card
+                  :price="item.data[0].price * item.num"
+                  :desc="item.data[0].title"
+                  :title="item.data[0].title"
+                  :thumb="item.data[0].url"
+                  class="goods-card"
+                >
+                  <template #num>
+                    <van-stepper
+                      v-model.number="item.num"
+                      @change="onNum"
+                      theme="round"
+                      button-size="22"
+                    />
+                  </template>
+                </van-card>
+                <template #right>
+                  <van-button
+                    square
+                    icon="delete"
+                    type="danger"
+                    @click="delGoods(item, index)"
+                    class="delete-button"
                   />
                 </template>
-              </van-card>
-              <template #right>
-                <van-button
-                  square
-                  icon="delete"
-                  type="danger"
-                  @click="delGoods(item, index)"
-                  class="delete-button"
-                />
-              </template>
-            </van-swipe-cell>
-          </van-col>
-        </van-row>
-      </van-checkbox-group>
-    </div>
+              </van-swipe-cell>
+            </van-col>
+          </van-row>
+        </van-checkbox-group>
+      </div>
+    </van-pull-refresh>
 
     <!-- vant提交订单栏 -->
     <van-submit-bar
@@ -93,7 +95,7 @@ export default {
       total: 0, //总价
       isShow: false,
       num: 0,
-      isLoading: false,
+      isLoading: false
     };
   },
 
@@ -122,7 +124,7 @@ export default {
     onChecked() {
       //点击复选框选中商品并计算总价
       this.total = 0;
-      this.result.map((item) => {
+      this.result.map(item => {
         this.total += item.data[0].price * 100 * item.num;
       });
 
@@ -150,7 +152,7 @@ export default {
         this.$notify({ type: "danger", message: "删除前请取消选中" });
       } else {
         Dialog.confirm({
-          message: "确认要删除宝贝吗？",
+          message: "确认要删除宝贝吗？"
         })
           .then(() => {
             this.carts.splice(index, 1);
@@ -166,9 +168,9 @@ export default {
     // 跳转详情页
     goto() {
       this.$router.push({
-        path: "/sortlist",
+        path: "/sortlist"
       });
-    },
+    }
   },
 
   created() {
@@ -197,9 +199,9 @@ export default {
           this.isShow = true;
           this.checkAll = false;
         }
-      },
-    },
-  },
+      }
+    }
+  }
 };
 </script>
 

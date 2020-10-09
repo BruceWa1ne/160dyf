@@ -2,6 +2,7 @@ import { setToken, setUser, getToken, getUser, logOut } from "@/utils/auth";
 import userAPI from "@/api/userAPI";
 import { Dialog } from "vant";
 import router from "@/router/index";
+import store from "@/store/index";
 export default {
   /*
     用户登录状态(token,username)
@@ -32,10 +33,12 @@ export default {
     // 登录功能
     login(context, { username, password, checked }) {
       return new Promise((resolve, reject) => {
+        store.commit("showLoading");
         userAPI
           .login(username, password)
           .then((res) => {
             console.log(res);
+            store.commit("hideLoading");
             // 成功回调
             if (res.data.flag) {
               let userinfo = {

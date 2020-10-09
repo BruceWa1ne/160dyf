@@ -53,8 +53,8 @@ export default {
       currentPath: "/list",
       imgList: {
         covImg:
-          "https://www.160dyf.com/Public/upload/category/2017/12-14/400x200/5a325546ccd46.jpg",
-      },
+          "https://www.160dyf.com/Public/upload/category/2017/12-14/400x200/5a325546ccd46.jpg"
+      }
     };
   },
 
@@ -63,7 +63,7 @@ export default {
   methods: {
     // 左侧导航切换
     leftNav(index) {
-      categoryAPi.getCategory(this.page, this.pagesize).then((res) => {
+      categoryAPi.getCategory(this.page, this.pagesize).then(res => {
         this.leftList = res.data.data[0].data;
         this.rightList = this.leftList[index].drugs;
         this.drugnameList = this.rightList[0].name;
@@ -73,16 +73,18 @@ export default {
     // 右侧导航切换
     rightNav() {
       this.$router.push({ path: "/sortlist" });
-    },
+    }
   },
 
   mounted() {
-    categoryAPi.getCategory(this.page, this.pagesize).then((res) => {
+    this.$store.commit("showLoading");
+    categoryAPi.getCategory(this.page, this.pagesize).then(res => {
+      this.$store.commit("hideLoading");
       this.leftList = res.data.data[0].data;
       this.rightList = this.leftList[0].drugs;
       this.drugnameList = this.rightList[0].name;
     });
-  },
+  }
 };
 </script>
 

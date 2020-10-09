@@ -116,9 +116,11 @@ export default {
     // 验证用户名是否已注册
     checkname() {
       if (this.username) {
+        this.$store.commit("showLoading");
         userAPI
           .checkName(this.username)
           .then(res => {
+            this.$store.commit("hideLoading");
             if (res.data.flag) {
               //验证已经好了
               console.log(res.data.flag, 455);
