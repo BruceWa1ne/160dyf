@@ -25,7 +25,7 @@
       <div class="sort-list">
         <van-grid :border="false" :column-num="5">
           <van-grid-item v-for="imgval in imglist" :key="imgval.id">
-            <van-image :src="imgval.src" @click="go('/sortlist')"></van-image>
+            <van-image :src="imgval.src" @click="go(imgval.path)"></van-image>
             <van-tag plain type="primary">{{ imgval.imgcontent }}</van-tag>
           </van-grid-item>
         </van-grid>
@@ -50,24 +50,15 @@
             </van-count-down>
           </div>
           <van-row>
-            <van-col span="6" style="padding:1.5%">
-              <van-image src="https://img.yzcdn.cn/vant/apple-1.jpg" />
-              <div class="newprice">￥118.00</div>
-              <div class="oldprice">￥138.00</div>
-            </van-col>
-            <van-col span="6" style="padding:1.5%">
-              <van-image src="https://img.yzcdn.cn/vant/apple-2.jpg" />
-              <div class="newprice">￥118.00</div>
-              <div class="oldprice">￥138.00</div>
-            </van-col>
-            <van-col span="6" style="padding:1.5%">
-              <van-image src="https://img.yzcdn.cn/vant/apple-3.jpg" />
-              <div class="newprice">￥118.00</div>
-              <div class="oldprice">￥138.00</div>
-            </van-col>
-            <van-col span="6" style="padding:1.5%">
-              <van-image src="https://img.yzcdn.cn/vant/apple-3.jpg" />
-              <div class="newprice">￥118.00</div>
+            <van-col
+              span="6"
+              style="padding:1.5%"
+              v-for="goodsval in goodsData"
+              :key="goodsval._id"
+              @click="toDetails(goodsval._id)"
+            >
+              <van-image :src="goodsval.url" />
+              <div class="newprice">￥{{ goodsval.price }}</div>
               <div class="oldprice">￥138.00</div>
             </van-col>
           </van-row>
@@ -199,7 +190,10 @@
             tag="div"
             :to="item.path"
             active-class="active"
-            @click.native="routerRefresh();getdata(item)"
+            @click.native="
+              routerRefresh();
+              getdata(item);
+            "
           >
             <span style="font-size: 18.75px;">{{ item.title }}</span>
             <span style="font-size: 11.25px;">{{ item.affix }}</span>
@@ -213,6 +207,7 @@
         </div>
       </div>
     </main>
+    <a class="scrolltop" v-show="backshow" @click="backTop"><van-icon name="back-top" size="1.6rem"/></a>
   </div>
 </template>
 
@@ -227,12 +222,14 @@ export default {
         {
           id: 1,
           imgcontent: "全部分类",
-          src: require("../../assets/img/sortlist/fenlei.png")
+          src: require("../../assets/img/sortlist/fenlei.png"),
+          path: "/list",
         },
         {
           id: 2,
           imgcontent: "妇科用药",
-          src: require("../../assets/img/sortlist/women.png")
+          src: require("../../assets/img/sortlist/women.png"),
+          path: "/sortlist",
         },
         {
           id: 3,
@@ -318,14 +315,40 @@ export default {
           affix: "高性价比"
         }
       ],
-      // goodsData: [],
-      // page: 1,
-      // pagesize: 40,
-      routerNew: true
+      goodsData: [],
+      page: 1,
+      pagesize: 4,
+      routerNew: true,
+      backshow: false,
     };
   },
 
   components: {},
+
+  mounted() {
+    window.addEventListener("scroll", () => {
+      const scrollY =
+        document.documentElement.scrollTop || document.body.scrollTop; // 滚动条在Y轴上的滚动距离
+
+      const vh =
+        document.compatMode === "CSS1Compat"
+          ? document.documentElement.clientHeight
+          : document.body.clientHeight; // 页面的可视高度（能看见的）
+
+      const allHeight = Math.max(
+        document.body.scrollHeight,
+        document.documentElement.scrollHeight
+      ); // 页面的总高度（所有的）
+
+      if (scrollY + vh >= allHeight/2) {
+        // 当滚动条滑到页面底部
+
+        this.backshow = true
+      }else{
+        this.backshow = false
+      }
+    });
+  },
 
   methods: {
     getdata(obj) {
@@ -338,11 +361,24 @@ export default {
     },
     routerRefresh() {
       this.routerNew = false;
-      console.log(this.routerNew,777)
+      console.log(this.routerNew, 777);
       this.$nextTick(() => {
         this.routerNew = true;
       });
-    }
+    },
+    backTop () {
+      let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+      const that = this
+      let timer = setInterval(() => {
+        let ispeed = Math.floor(-that.scrollTop / 5)
+        document.documentElement.scrollTop = document.body.scrollTop = that.scrollTop + ispeed
+
+        if (document.documentElement.scrollTop === 0) {
+          clearInterval(timer)
+        }
+      }, 500)
+  },
+
 
     // fetchData() {
     //   // let {page, pagesize, search} = this;
@@ -354,14 +390,16 @@ export default {
     //   });
     // },
 
-    // toDetails(id) {
-    //   this.$router.push({
-    //     path: "/details/${item.path}",
-    //     query: {
-    //       id: item.id
-    //     }
-    //   });
-    // }
+    toDetails(id) {
+      //跳转到详情页面
+      this.$router.push({
+        path: "/details",
+        query: {
+          id
+        }
+      });
+      // sessionStorage.setItem('id')
+    }
   },
 
   beforeRouteEnter(to, from, next) {
@@ -376,6 +414,12 @@ export default {
 
   created() {
     // this.fetchData();
+    goodslistApi.getlists(this.page, this.pagesize).then(res => {
+      // console.log(res.data.data, 999);
+      this.goodsData = res.data.data; //数据部分
+      // this.total = res.data.total; //设置总条数
+      console.log(this.goodsData, 999);
+    });
   }
 };
 </script>
@@ -386,6 +430,24 @@ export default {
   .van-swipe-item {
     background: none !important;
     line-height: 175.781px !important;
+  }
+}
+.scrolltop {
+  position: fixed;
+  bottom: 15%;
+  right: 3%;
+  z-index: 10;
+  // display: none;
+  width: 2.5rem;
+  height: 2.5rem;
+  line-height: 2.5rem;
+  border-radius: 100%;
+  text-align: center;
+  font-size: 0.42667rem;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.6);
+  .van-icon {
+    padding: 0.45rem 0;
   }
 }
 .nav-header-top {

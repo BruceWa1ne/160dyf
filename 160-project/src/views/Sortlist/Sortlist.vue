@@ -33,6 +33,11 @@
           </div>
         </van-grid-item>
       </van-grid>
+      <div class="more">
+        <div v-if="moreShowBoolen">加载更多</div>
+
+        <div v-else>已无更多</div>
+      </div>
     </div>
   </div>
 </template>
@@ -46,12 +51,46 @@ export default {
       show: false,
       page: 1,
       pagesize: 40,
+      nowPage: 1,
       total: 0,
       tableData: [],
+      scrollHeight: 0,
+      moreShowBoolen: false
     };
   },
 
   components: {},
+
+  mounted() {
+    this.fetchData();
+
+    // screen.availHeight表示屏幕高度
+
+    // document.documentElement.scrollTop表示当前页面滚动条的位置,documentElement对应的是html标签,body对应的是body标签
+
+    // document.compatMode用来判断当前浏览器采用的渲染方式,CSS1Compat表示标准兼容模式开启
+
+    window.addEventListener("scroll", () => {
+      const scrollY =
+        document.documentElement.scrollTop || document.body.scrollTop; // 滚动条在Y轴上的滚动距离
+
+      const vh =
+        document.compatMode === "CSS1Compat"
+          ? document.documentElement.clientHeight
+          : document.body.clientHeight; // 页面的可视高度（能看见的）
+
+      const allHeight = Math.max(
+        document.body.scrollHeight,
+        document.documentElement.scrollHeight
+      ); // 页面的总高度（所有的）
+
+      if (scrollY + vh >= allHeight) {
+        // 当滚动条滑到页面底部
+
+        this.scrollMore();
+      }
+    });
+  },
 
   methods: {
     onClickLeft() {
@@ -62,10 +101,27 @@ export default {
     },
     fetchData() {
       // let {page, pagesize, search} = this;
-      goodslistApi.getlists(this.page, this.pagesize).then((res) => {
+      goodslistApi.getlists(this.page, this.pagesize).then(res => {
         // console.log(res.data.data, 999);
-        this.tableData = res.data.data; //数据部分
-        this.total = res.data.total; //设置总条数
+        if (res.data.data.length <= 10) {
+          this.tableData = res.data.data; //数据部分
+          this.moreShowBoolen = false;
+        } else {
+          this.tableData = res.data.data.slice(0, 10); //数据部分
+          this.moreShowBoolen = true;
+        }
+      });
+    },
+    scrollMore() {
+      goodslistApi.getlists(this.page, this.pagesize).then(res => {
+        // console.log(res.data.data, 999);
+        this.tableData = this.tableData.concat(res.data.data.slice(this.nowPage * 10, (this.nowPage + 1) * 10));
+        this.nowPage++;
+        if (res.data.data.length >= this.nowPage * 10) {
+          this.moreShowBoolen = true;
+        } else {
+          this.moreShowBoolen = false;
+        }
       });
     },
 
@@ -74,11 +130,11 @@ export default {
       this.$router.push({
         path: "/details",
         query: {
-          id,
-        },
+          id
+        }
       });
       // sessionStorage.setItem('id')
-    },
+    }
   },
   beforeRouteEnter(to, from, next) {
     window.document.body.style.backgroundColor = "#f5f5f5";
@@ -90,9 +146,7 @@ export default {
     next();
   },
 
-  created() {
-    this.fetchData();
-  },
+  created() {}
 };
 </script>
 
@@ -203,5 +257,12 @@ export default {
       }
     }
   }
+}
+.more{
+  display: flex;
+  padding: 5px 5.333%;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: #666;
 }
 </style>
