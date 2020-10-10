@@ -130,7 +130,7 @@
                 <li
                   style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; color: rgb(153, 153, 153);"
                 >
-                  胎教到底有没有用？
+                  胎教到底有没有？
                 </li>
               </ul>
             </van-swipe-item>
