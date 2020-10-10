@@ -207,8 +207,8 @@
         </div>
       </div>
     </main>
-    <a class="scrolltop" v-show="backshow" @click="backTop"
-      ><van-icon name="back-top" size="1.6rem"
+    <a class="scrolltop" v-show="backshow" @click="backTop">
+      <van-icon name="back-top" size="1.6rem"
     /></a>
   </div>
 </template>
