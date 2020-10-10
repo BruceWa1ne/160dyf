@@ -124,6 +124,7 @@ const routes = [
 ];
 // 注入实例
 const router = new VueRouter({
+  mode: "history", //history 模式路径就没有#号
   routes,
 });
 
