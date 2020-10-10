@@ -136,7 +136,7 @@ const routes = [
 ];
 // 注入实例
 const router = new VueRouter({
-  mode : 'history',
+  mode : 'history', // 历史模式
   routes,
 });
 
