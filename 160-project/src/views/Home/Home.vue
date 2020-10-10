@@ -207,7 +207,9 @@
         </div>
       </div>
     </main>
-    <a class="scrolltop" v-show="backshow" @click="backTop"><van-icon name="back-top" size="1.6rem"/></a>
+    <a class="scrolltop" v-show="backshow" @click="backTop"
+      ><van-icon name="back-top" size="1.6rem"
+    /></a>
   </div>
 </template>
 
@@ -234,86 +236,86 @@ export default {
         {
           id: 3,
           imgcontent: "男科用药",
-          src: require("../../assets/img/sortlist/men.png")
+          src: require("../../assets/img/sortlist/men.png"),
         },
         {
           id: 4,
           imgcontent: "慢性用药",
-          src: require("../../assets/img/sortlist/manxing.png")
+          src: require("../../assets/img/sortlist/manxing.png"),
         },
         {
           id: 5,
           imgcontent: "日常用药",
-          src: require("../../assets/img/sortlist/daily.png")
+          src: require("../../assets/img/sortlist/daily.png"),
         },
         {
           id: 6,
           imgcontent: "两性情趣",
-          src: require("../../assets/img/sortlist/bisexual.png")
+          src: require("../../assets/img/sortlist/bisexual.png"),
         },
         {
           id: 7,
           imgcontent: "营养保健",
-          src: require("../../assets/img/sortlist/Nutrition.png")
+          src: require("../../assets/img/sortlist/Nutrition.png"),
         },
         {
           id: 8,
           imgcontent: "食品养生",
-          src: require("../../assets/img/sortlist/health.png")
+          src: require("../../assets/img/sortlist/health.png"),
         },
 
         {
           id: 9,
           imgcontent: "母婴乐园",
-          src: require("../../assets/img/sortlist/baby.png")
+          src: require("../../assets/img/sortlist/baby.png"),
         },
         {
           id: 10,
           imgcontent: "健康生活",
-          src: require("../../assets/img/sortlist/life.png")
-        }
+          src: require("../../assets/img/sortlist/life.png"),
+        },
       ],
       barlist: [
         {
           id: 1,
-          src: require("../../assets/img/home-banner/activity.jpg")
+          src: require("../../assets/img/home-banner/activity.jpg"),
         },
         {
           id: 2,
-          src: require("../../assets/img/home-banner/card.jpg")
+          src: require("../../assets/img/home-banner/card.jpg"),
         },
         {
           id: 3,
-          src: require("../../assets/img/home-banner/food.jpg")
+          src: require("../../assets/img/home-banner/food.jpg"),
         },
         {
           id: 4,
-          src: require("../../assets/img/home-banner/Mid-autumn Festival.jpg")
+          src: require("../../assets/img/home-banner/Mid-autumn Festival.jpg"),
         },
         {
           id: 5,
-          src: require("../../assets/img/home-banner/phone.png")
-        }
+          src: require("../../assets/img/home-banner/phone.png"),
+        },
       ],
       tlelist: [
         {
           id: 1,
           title: "全部",
           path: "/home/all",
-          affix: "猜你喜欢"
+          affix: "猜你喜欢",
         },
         {
           id: 2,
           title: "销量",
           path: "/home/sales",
-          affix: "热卖好货"
+          affix: "热卖好货",
         },
         {
           id: 3,
           title: "实惠",
           path: "/home/Affordable",
-          affix: "高性价比"
-        }
+          affix: "高性价比",
+        },
       ],
       goodsData: [],
       page: 1,
@@ -340,12 +342,12 @@ export default {
         document.documentElement.scrollHeight
       ); // 页面的总高度（所有的）
 
-      if (scrollY + vh >= allHeight/2) {
+      if (scrollY + vh >= allHeight / 2) {
         // 当滚动条滑到页面底部
 
-        this.backshow = true
-      }else{
-        this.backshow = false
+        this.backshow = true;
+      } else {
+        this.backshow = false;
       }
     });
   },
@@ -354,31 +356,34 @@ export default {
     getdata(obj) {
       console.log(obj, 999);
       localStorage.setItem("type", obj.path);
-      console.log(obj.path, 888);
+      // console.log(obj.path, 888);
     },
     go(path) {
       this.$router.push(path);
     },
     routerRefresh() {
       this.routerNew = false;
-      console.log(this.routerNew, 777);
+      // console.log(this.routerNew, 777);
       this.$nextTick(() => {
         this.routerNew = true;
       });
     },
-    backTop () {
-      let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
-      const that = this
+    backTop() {
+      let scrollTop =
+        window.pageYOffset ||
+        document.documentElement.scrollTop ||
+        document.body.scrollTop;
+      const that = this;
       let timer = setInterval(() => {
-        let ispeed = Math.floor(-that.scrollTop / 5)
-        document.documentElement.scrollTop = document.body.scrollTop = that.scrollTop + ispeed
+        let ispeed = Math.floor(-that.scrollTop / 5);
+        document.documentElement.scrollTop = document.body.scrollTop =
+          that.scrollTop + ispeed;
 
         if (document.documentElement.scrollTop === 0) {
-          clearInterval(timer)
+          clearInterval(timer);
         }
-      }, 500)
-  },
-
+      }, 500);
+    },
 
     // fetchData() {
     //   // let {page, pagesize, search} = this;
@@ -395,11 +400,11 @@ export default {
       this.$router.push({
         path: "/details",
         query: {
-          id
-        }
+          id,
+        },
       });
       // sessionStorage.setItem('id')
-    }
+    },
   },
 
   beforeRouteEnter(to, from, next) {
@@ -414,13 +419,13 @@ export default {
 
   created() {
     // this.fetchData();
-    goodslistApi.getlists(this.page, this.pagesize).then(res => {
+    goodslistApi.getlists(this.page, this.pagesize).then((res) => {
       // console.log(res.data.data, 999);
       this.goodsData = res.data.data; //数据部分
       // this.total = res.data.total; //设置总条数
-      console.log(this.goodsData, 999);
+      // console.log(this.goodsData, 999);
     });
-  }
+  },
 };
 </script>
 
@@ -694,10 +699,10 @@ export default {
     }
   }
 }
-#goods-list-inf {
-  //     width: 350px;
-  // //   float: right;
-  //   height: 200px;
-  //   background: pink;
-}
+// #goods-list-inf {
+//   //     width: 350px;
+//   // //   float: right;
+//   //   height: 200px;
+//   //   background: pink;
+// }
 </style>

@@ -44,7 +44,7 @@
         placeholder="新密码"
         :rules="[
           { required: true, message: '请填写新密码' },
-          { pattern, message: '请输入正确的密码格式:最少6位数字英文' }
+          { pattern, message: '请输入正确的密码格式:最少6位数字英文' },
         ]"
       />
       <van-field
@@ -55,7 +55,7 @@
         placeholder="确认密码"
         :rules="[
           { required: true, message: '请确认密码' },
-          { pattern, message: '请输入正确的密码格式:最少6位数字英文' }
+          { pattern, message: '请输入正确的密码格式:最少6位数字英文' },
         ]"
       />
       <div class="saveBtn" style="margin: 16px;">
@@ -88,7 +88,7 @@ export default {
       checkPwd: "",
       pattern: /^[^\d]\w{6,10}$/,
       username: "",
-      uid: ""
+      uid: "",
     };
   },
 
@@ -111,33 +111,33 @@ export default {
       if (this.nowPwd) {
         userAPI
           .login(this.username, password)
-          .then(res => {
-            console.log(res);
+          .then((res) => {
+            // console.log(res);
             if (res.data.flag) {
               //验证已经好了
-              console.log(res.data.flag, 455);
+              // console.log(res.data.flag, 455);
               this.ischeck = true;
             } else {
               //验证没有通过
               this.ischeck = false;
               Dialog.alert({
-                message: "当前密码不正确"
+                message: "当前密码不正确",
               }).then(() => {
                 // on close
               });
             }
           })
-          .catch(err => {
-            console.log("ERROR,已出错");
+          .catch((err) => {
+            // console.log("ERROR,已出错");
             Dialog.alert({
-              message: "服务器请求异常"
+              message: "服务器请求异常",
             }).then(() => {
               // on close
             });
           });
       } else {
         Dialog.alert({
-          message: "用户名不能为空"
+          message: "用户名不能为空",
         }).then(() => {
           // on close
         });
@@ -152,7 +152,7 @@ export default {
         console.log("密码确认成功");
       } else {
         Dialog.alert({
-          message: "两次密码不一致"
+          message: "两次密码不一致",
         }).then(() => {
           // on close
         });
@@ -167,7 +167,7 @@ export default {
         console.log("密码确认成功");
       } else {
         Dialog.alert({
-          message: "两次密码不一致"
+          message: "两次密码不一致",
         }).then(() => {
           // on close
         });
@@ -179,13 +179,13 @@ export default {
       // 获取uid username checkPwd
       let pwd = this.$md5(this.checkPwd);
       this.$store.commit("showLoading");
-      userAPI.editPwd(this.username, pwd, this.uid).then(res => {
+      userAPI.editPwd(this.username, pwd, this.uid).then((res) => {
         this.$store.commit("hideLoading");
-        console.log(res);
+        // console.log(res);
         if (res.data.flag) {
           // 修改成功
           Dialog.alert({
-            message: "修改成功,请重新登录哦！"
+            message: "修改成功,请重新登录哦！",
           }).then(() => {
             this.$router.push("/login");
             logOut();
@@ -193,11 +193,11 @@ export default {
         } else {
           // 修改失败
           Dialog.alert({
-            message: "修改失败,请重试"
+            message: "修改失败,请重试",
           });
         }
       });
-    }
+    },
   },
 
   // 进入页面就获取用户名
@@ -205,7 +205,7 @@ export default {
     // 获取用户名 uid
     this.uid = this.$store.state.user.uid;
     this.username = this.$store.state.user.username;
-  }
+  },
 };
 </script>
 

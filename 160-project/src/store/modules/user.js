@@ -37,7 +37,7 @@ export default {
         userAPI
           .login(username, password)
           .then((res) => {
-            console.log(res);
+            // console.log(res);
             store.commit("hideLoading");
             // 成功回调
             if (res.data.flag) {
