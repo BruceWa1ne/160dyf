@@ -13,16 +13,16 @@
         </div>
         <ul>
           <li>
-            <a href="#/home">首页</a>
+            <a href="/home">首页</a>
           </li>
           <li>
-            <a href="#/list">分类</a>
+            <a href="/list">分类</a>
           </li>
           <li>
-            <a href="#/cart">购物车</a>
+            <a href="/cart">购物车</a>
           </li>
           <li>
-            <a href="#/mine">我的</a>
+            <a href="/mine">我的</a>
           </li>
         </ul>
       </div>
@@ -39,7 +39,7 @@
           label=" "
           placeholder="请输入用户名"
           :rules="[
-            { pattern, message: '请输入正确的用户名格式:最少6位数字英文' }
+            { pattern, message: '请输入正确的用户名格式:最少6位数字英文' },
           ]"
         />
         <van-field
@@ -49,7 +49,7 @@
           label=" "
           placeholder="请输入密码"
           :rules="[
-            { pattern, message: '请输入正确的密码格式:最少6位数字英文' }
+            { pattern, message: '请输入正确的密码格式:最少6位数字英文' },
           ]"
         />
         <div style="margin: 16px;" class="buttr">
@@ -99,7 +99,7 @@ export default {
       checked: true,
 
       // shhow
-      show: false
+      show: false,
     };
   },
 
@@ -119,7 +119,7 @@ export default {
         this.$store.commit("showLoading");
         userAPI
           .checkName(this.username)
-          .then(res => {
+          .then((res) => {
             this.$store.commit("hideLoading");
             if (res.data.flag) {
               //验证已经好了
@@ -129,23 +129,23 @@ export default {
               //验证没有通过
               this.ischeck = false;
               Dialog.alert({
-                message: "用户名已被注册"
+                message: "用户名已被注册",
               }).then(() => {
                 // on close
               });
             }
           })
-          .catch(err => {
+          .catch((err) => {
             console.log("ERROR,已出错");
             Dialog.alert({
-              message: "服务器请求异常"
+              message: "服务器请求异常",
             }).then(() => {
               // on close
             });
           });
       } else {
         Dialog.alert({
-          message: "用户名不能为空"
+          message: "用户名不能为空",
         }).then(() => {
           // on close
         });
@@ -160,38 +160,38 @@ export default {
         let pass = this.$md5(this.password);
         userAPI
           .reg(this.username, pass)
-          .then(res => {
+          .then((res) => {
             if (res.data.flag) {
               //注册成功
               Dialog.alert({
-                message: "注册成功"
+                message: "注册成功",
               }).then(() => {
                 // on close
               });
               //跳转登录页
               this.$router.push({
                 path: "/login",
-                query: { username: this.username }
+                query: { username: this.username },
               });
             } else {
               //注册失败
               Dialog.alert({
-                message: "注册失败"
+                message: "注册失败",
               }).then(() => {
                 // on close
               });
             }
           })
-          .catch(err => {
+          .catch((err) => {
             Dialog.alert({
-              message: "服务器异常"
+              message: "服务器异常",
             }).then(() => {
               // on close
             });
           });
       } else {
         Dialog.alert({
-          message: "用户名或密码不能为空"
+          message: "用户名或密码不能为空",
         }).then(() => {
           // on close
         });
@@ -203,12 +203,12 @@ export default {
       Dialog.alert({
         title: "160大药房服务协议",
         message:
-          "欢迎使用就医160网，本许可协议在用户使用就医160网服务之前签署。在签署本协议之前，代表用户已经完全了解、知悉、接受和遵守本服务协议的全部内容。如果用户对本协议的任何条款表示异议，可以选择不使用就医160网服务。"
+          "欢迎使用就医160网，本许可协议在用户使用就医160网服务之前签署。在签署本协议之前，代表用户已经完全了解、知悉、接受和遵守本服务协议的全部内容。如果用户对本协议的任何条款表示异议，可以选择不使用就医160网服务。",
       }).then(() => {
         // on close
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

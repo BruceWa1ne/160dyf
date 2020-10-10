@@ -14,16 +14,16 @@ import navBar from "./components/footer/Nav.vue";
 export default {
   data() {
     return {
-      footer_show: true
+      footer_show: true,
     };
   },
   computed: {
-    ...mapState(["LOADING"])
+    ...mapState(["LOADING"]),
   },
   components: {
     // 2.注册子组件
     Loading,
-    navBar
+    navBar,
   },
   watch: {
     $route: function(r) {
@@ -39,16 +39,13 @@ export default {
       } else {
         this.footer_show = true;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style lang="scss">
-@import "./assets/sass/public/common.scss";
 #app {
-  overflow-x: hidden;
   padding-bottom: 50px;
-  height: 100%;
 }
 </style>

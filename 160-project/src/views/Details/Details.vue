@@ -20,19 +20,19 @@
         <ul>
           <li>
             <van-icon name="wap-home-o" size="18" />
-            <a href="#/home">首页</a>
+            <a href="/home">首页</a>
           </li>
           <li>
             <van-icon name="bars" size="18" />
-            <a href="#/list">分类</a>
+            <a href="/list">分类</a>
           </li>
           <li>
             <van-icon name="cart-o" size="18" />
-            <a href="#/cart">购物车</a>
+            <a href="/cart">购物车</a>
           </li>
           <li>
             <van-icon name="user-o" size="18" />
-            <a href="#/mine">我的</a>
+            <a href="/mine">我的</a>
           </li>
         </ul>
       </div>

@@ -31,14 +31,26 @@ const routes = [
       {
         path: "all",
         component: Goodslist,
+        meta: {
+          //元信息
+          ischeck: false, //不需要路由守卫
+        },
       },
       {
         path: "sales",
         component: Goodslist,
+        meta: {
+          //元信息
+          ischeck: false, //不需要路由守卫
+        },
       },
       {
         path: "affordable",
         component: Goodslist,
+        meta: {
+          //元信息
+          ischeck: false, //不需要路由守卫
+        },
       },
     ],
     meta: {
@@ -124,6 +136,7 @@ const routes = [
 ];
 // 注入实例
 const router = new VueRouter({
+  mode : 'history',
   routes,
 });
 

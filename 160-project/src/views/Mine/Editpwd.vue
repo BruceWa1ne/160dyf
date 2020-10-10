@@ -12,16 +12,16 @@
       </div>
       <ul>
         <li>
-          <a href="#/home">首页</a>
+          <a href="/home">首页</a>
         </li>
         <li>
-          <a href="#/list">分类</a>
+          <a href="/list">分类</a>
         </li>
         <li>
-          <a href="#/cart">购物车</a>
+          <a href="/cart">购物车</a>
         </li>
         <li>
-          <a href="#/mine">我的</a>
+          <a href="/mine">我的</a>
         </li>
       </ul>
     </div>
