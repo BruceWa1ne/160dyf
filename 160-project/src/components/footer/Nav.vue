@@ -6,9 +6,10 @@
         :icon="item.icon"
         v-for="item in list"
         :key="item.id"
+        :badge="item.name === 'cart' ? carts : ''"
         @click="move(item.path)"
       >
-        {{ item.name }}
+        {{ item.text }}
       </van-tabbar-item>
     </van-tabbar>
   </div>
@@ -23,33 +24,38 @@ export default {
       list: [
         {
           id: 1,
-          name: "首页",
+          name: "home",
           icon: "wap-home-o",
           path: "/home",
+          text: "首页",
         },
         {
           id: 2,
-          name: "咨询",
+          name: "contact",
           icon: "chat-o",
           path: "/contact",
+          text: "咨询",
         },
         {
           id: 3,
-          name: "分类",
+          name: "list",
           icon: "apps-o",
           path: "/list",
+          text: "分类",
         },
         {
           id: 4,
-          name: "购物车",
+          name: "cart",
           icon: "shopping-cart-o",
           path: "/cart",
+          text: "购物车",
         },
         {
           id: 5,
-          name: "我的",
+          name: "mine",
           icon: "contact",
           path: "/mine",
+          text: "我的",
         },
       ],
     };
@@ -61,6 +67,13 @@ export default {
     move(path) {
       // console.log("切换到" + path);
       this.$router.push(path);
+    },
+  },
+
+  computed: {
+    carts() {
+      //  拿到购物车的长度
+      return this.$store.state.cart.carts.length;
     },
   },
 

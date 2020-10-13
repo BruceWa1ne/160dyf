@@ -39,6 +39,7 @@ import {
   GoodsAction,
   GoodsActionIcon,
   GoodsActionButton,
+  Notify,
 } from "vant";
 Vue.use(Button);
 Vue.use(Tabbar);
@@ -76,6 +77,7 @@ Vue.use(Divider);
 Vue.use(GoodsAction);
 Vue.use(GoodsActionButton);
 Vue.use(GoodsActionIcon);
+Vue.use(Notify);
 // 消息提示的环境配置，是否为生产环境：
 // false 开发环境：Vue会提供很多警告来方便调试代码。
 // true 生产环境：警告却没有用，反而会增加应用的体积

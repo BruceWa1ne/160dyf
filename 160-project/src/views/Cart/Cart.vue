@@ -80,26 +80,29 @@
         >全选</van-checkbox
       >
     </van-submit-bar>
+    <app-nav />
   </div>
 </template>
 
 <script>
+import appNav from "../../components/footer/Nav";
 import { Toast } from "vant";
 import { Dialog } from "vant";
 export default {
   data() {
     return {
-      carts: [], // 添加到购物车的商品
       result: [], // 复选框选中的商品
       checkAll: false, // 全选状态
       total: 0, //总价
       isShow: false,
       num: 0,
-      isLoading: false
+      isLoading: false,
     };
   },
 
-  components: {},
+  components: {
+    appNav,
+  },
 
   methods: {
     onClickLeft() {
@@ -124,7 +127,7 @@ export default {
     onChecked() {
       //点击复选框选中商品并计算总价
       this.total = 0;
-      this.result.map(item => {
+      this.result.map((item) => {
         this.total += item.data[0].price * 100 * item.num;
       });
 
@@ -152,7 +155,7 @@ export default {
         this.$notify({ type: "danger", message: "删除前请取消选中" });
       } else {
         Dialog.confirm({
-          message: "确认要删除宝贝吗？"
+          message: "确认要删除宝贝吗？",
         })
           .then(() => {
             this.carts.splice(index, 1);
@@ -168,17 +171,18 @@ export default {
     // 跳转详情页
     goto() {
       this.$router.push({
-        path: "/sortlist"
+        path: "/sortlist",
       });
-    }
+    },
+  },
+
+  computed: {
+    carts() {
+      return this.$store.state.cart.carts;
+    },
   },
 
   created() {
-    let carts = localStorage.carts;
-    if (carts) {
-      this.carts = JSON.parse(carts);
-    }
-
     if (this.carts.length > 0) {
       //显示或隐藏空状态
       this.isShow = false;
@@ -199,9 +203,9 @@ export default {
           this.isShow = true;
           this.checkAll = false;
         }
-      }
-    }
-  }
+      },
+    },
+  },
 };
 </script>
 

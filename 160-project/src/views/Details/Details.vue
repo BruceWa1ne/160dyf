@@ -162,7 +162,6 @@ export default {
       checked: true,
       show: false,
       details: [], // 接收服务器传回的商品
-      carts: [], // 购物车商品
     };
   },
 
@@ -198,11 +197,14 @@ export default {
           rel = false;
         }
       });
+
       if (rel) {
-        this.carts.push({
+        const goods = {
           data: this.details,
           num: 1,
-        });
+        };
+        // 调用mutation方法
+        this.$store.commit("add", goods);
       }
       localStorage.carts = JSON.stringify(this.carts);
     },
@@ -217,12 +219,17 @@ export default {
     next();
   },
 
-  created() {
-    let carts = localStorage.carts;
-    if (carts) {
-      this.carts = JSON.parse(carts);
-    }
+  computed: {
+    carts() {
+      return this.$store.state.cart.carts;
+    },
   },
+  // created() {
+  //   let carts = localStorage.carts;
+  //   if (carts) {
+  //     this.carts = JSON.parse(carts);
+  //   }
+  // },
 
   mounted() {
     let gid = this.$route.query.id;
